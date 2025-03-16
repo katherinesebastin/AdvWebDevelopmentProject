@@ -118,7 +118,78 @@ Needs:
 
 ## 2. Use Cases and User Flows
 
-Add something
+### 1: Create a Player Profile
+User: Any player (New Player Jamie, Player Sam, or Veteran Player Riley)  
+Trigger: User clicks the "Create Profile" button.  
+Process:  
+- The user is prompted with a form that requests the following details: character name, health points (HP), skills, abilities, items, and any other relevant attributes for the character.  
+- The tool auto-generates default values for missing information where applicable (e.g., default HP or skill levels).  
+- The user can customize these values based on their character concept.  
+- Once the form is filled, the player clicks "Save," and the profile is stored in the system, ready for gameplay.  
+
+Outcome:  
+- The player’s character profile is saved and accessible at any time for updates or gameplay.  
+- The character’s profile is properly organized and ready for the next game session.  
+
+### 2: Edit Player Stats
+User: Any player (Player Sam, New Player Jamie, or Veteran Player Riley)  
+Trigger: User clicks the "Edit Stats" button.  
+Process:  
+- The player clicks the "Edit Stats" button on their character profile.  
+- A form appears that allows them to modify key stats, including HP, equipment, skills, abilities, and inventory.  
+- The player adjusts values as needed (e.g., updating HP after a battle, adding new items, or changing the level of a skill).  
+- Once the edits are made, the player clicks "Save," and the changes are automatically logged in the game log.  
+
+Outcome:  
+- The player’s stats are updated in real-time, reflecting changes made during the session.  
+- The game log captures the updates, providing a history of changes.  
+
+### 3: Override Stats (GM Control)
+User: Game Master (GM Alex)  
+Trigger: GM clicks the "Override Stats" button.  
+Process:  
+- The GM selects the player or NPC whose stats they want to modify.  
+- The GM clicks the "Override Stats" button, which brings up a special override menu that allows them to modify any aspect of the selected character’s stats, including HP, skills, and abilities.  
+- The GM can enter new values or make temporary changes (e.g., for a narrative reason, such as a character being cursed or blessed).  
+- Once the changes are made, the GM clicks "Save," and the changes are applied instantly.  
+- The tool logs these changes as an "override" and marks them as visible only to the GM or permitted users.  
+
+Outcome:  
+- The GM has full control over player and NPC stats for narrative or gameplay purposes.  
+- Changes are recorded with a clear log of what was modified, ensuring transparency for future reference.  
+
+### 4: Game Log Update
+User: Any player or GM  
+Trigger: User adds a note to the game log.  
+Process:  
+- The user (either a player or GM) clicks the "Add Note" button in the game log section.  
+- A text field appears, allowing the user to enter a note about the game session (e.g., "Sam’s character gained a new skill," "Alex’s NPC gave a cryptic clue").  
+- The user submits the note, and it is automatically logged with a timestamp.  
+- The note is visible to all users who have access to the game log (players and/or the GM, depending on permissions).  
+
+Outcome:  
+- The game log is updated, with notes serving as an organized record of the game’s progress and important events.  
+- All players and the GM have easy access to a detailed game history for reference.  
+
+### 5: View Character Profiles (Multiplayer Mode - Optional)
+User: Any player (Player Sam, Veteran Player Riley)  
+Trigger: User selects a character profile to view in multiplayer mode.  
+Process:  
+- The user navigates to the "Player Profiles" section.  
+- The user selects another player’s profile to view (if permissions allow).  
+- The system displays the profile with visible details such as HP, skills, and inventory, but without edit permissions (unless the user is the GM).  
+- The user can view any public notes or log entries associated with that character, but cannot modify the profile.  
+
+Outcome:  
+- Players can view each other’s character progress and important stats.  
+- The system ensures that profiles are read-only unless the GM grants additional permissions.  
+
+### Summary of Use Cases and Scenarios:
+- Create a Player Profile: Players create their character profiles, inputting vital stats and abilities.  
+- Edit Player Stats: Players update their stats during gameplay, keeping their profiles up-to-date.  
+- Override Stats (GM Control): GMs adjust player or NPC stats for narrative reasons, with clear log tracking.  
+- Game Log Update: Any player or GM adds events or changes to the game log, capturing key moments of the session.  
+- View Character Profiles (Multiplayer Mode - Optional): Players can view the profiles of others (read-only), enhancing multiplayer cooperation and strategy.  
 
 ## 3. UI Prototypes
 
