@@ -15,5 +15,5 @@ Multiplayer Mode – Allow players to see each other’s characters (if public).
 
 ## Tech Stack & Considerations
 Frontend: React (with conditional rendering for player vs. GM views).  
-Backend: Node.js + Express (to store player profiles and game data).  
-Database: MongoDB (or Firebase for easy user authentication).  
+Backend: Node.js or Express (to store player profiles and game data).  
+Database: PostgreSQL.  
