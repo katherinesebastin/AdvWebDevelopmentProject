@@ -239,9 +239,11 @@ Add something
 - Framework: React.js for the user interface.  
 - Styling: CSS (SCSS) with a CSS-in-JS approach using Styled Components.  
 - State Management: Redux or React Context API for managing application state, especially for user data, profile, and game state.  
+
 **Backend:**  
 - Server: Node.js with Express for handling HTTP requests.  
 - Database: PostgreSQL for storing user profiles, game logs, and session data.  
+
 **API:**  
 1.	RESTful API for client-server communication. The API will allow the frontend to:  
 - Create and update profiles  
@@ -274,18 +276,22 @@ The Digital Score & Stat Keeper is designed to help players and Game Masters (GM
 
 #### 2. Timeline and Phases
 The project will be developed over a period of  7 weeks, divided into 4 sprints. Each sprint will be 1.5 weeks long, with a 1-week buffer for final adjustments, bug fixes, and user testing. The following is a breakdown of key activities and deliverables:  
+
 **Phase 1: Planning & Design (Week 1 - Week 1.5)**  
 -	Requirements Gathering: Understand user needs through personas and use cases.  
 -	Information Architecture: Define the tool’s structure and data flow.  
 -	UI/UX Design: Develop wireframes, mockups, and prototypes for the app.  
 -	Technical Design: Set up the database schema and API structure.  
+
 **Phase 2: Development - Core Features (Week 1.5 - Week 3)**  
 -	Frontend Development: Build the React-based interface.  
 -	Backend Development: Set up the Node.js with Express backend and PostgreSQL database.  
 -	Game Log & Stats: Implement the ability to update and view player stats and game logs.  
 -	Profile Creation: Implement profile creation, and editing.  
+
 **Phase 3: Development - Advanced Features (Week 3 - Week 4.5)**  
 -	GM Tools: Implement GM’s ability to override player stats and manage game settings.  
+
 **Phase 4: Testing & Refinement (Week 4.5 - Week 7)**  
 -	User Testing: Conduct usability tests with real users.  
 -	Bug Fixes and Optimization: Address bugs, improve performance, and optimize code.  
@@ -293,6 +299,7 @@ The project will be developed over a period of  7 weeks, divided into 4 sprints.
 
 #### 3. Task Management and Team Collaboration
 The project will involve regular meetings to review progress and discuss obstacles, either in person or via WhatsApp.  
+
 **Roles & Responsibilities (Shared by Two People):**  
 -	Project Manager: Oversees project timelines, budget, and task allocation.  
 -	Frontend Developer: Builds the user interface using React.  
@@ -300,18 +307,21 @@ The project will involve regular meetings to review progress and discuss obstacl
 -	Designer: Designs UI/UX, wireframes, and prototypes.  
 -	QA Tester: Ensures the application meets quality standards through testing.  
 -	Game Master & Player Testers: Provide feedback on the tool’s usability.  
+
 **Sprint Reviews:**  
 -	At the end of each sprint, the team will review the work done and discuss adjustments based on feedback after testing.  
 
 #### 4. Risk Management
 Key risks identified and mitigation strategies:  
--	Risk: Feature Creep (Additional features requested during development)  
+- Risk: Feature Creep (Additional features requested during development)  
   - Mitigation: Define the core features clearly in the project scope and focus on delivering them first.  
--	Risk: Technical Challenges (Backend issues or integrations not working as expected)  
-  - Mitigation: Early prototyping and testing to identify issues early in the development.  
--	Risk: Delays in Testing (Limited time for testing before the release)  
-  - Mitigation: Allocate time for iterative testing during each sprint, with final user testing in Phase 4.  
 
+- Risk: Technical Challenges (Backend issues or integrations not working as expected)  
+  - Mitigation: Conduct early prototyping and testing to identify issues early in development.  
+
+- Risk: Delays in Testing (Limited time for testing before the release)  
+  - Mitigation: Allocate time for iterative testing during each sprint and perform final user testing in Phase 4.  
+  
 ### User Testing 
 
 #### 1. Testing Goals
@@ -325,16 +335,19 @@ Key risks identified and mitigation strategies:
 -	Testers: Players (including new and experienced) and GMs.  
 -	Method: Observational testing where users complete common tasks (e.g., creating a profile, editing stats, viewing game logs).  
 -	Success Metrics: Time to complete tasks, number of errors, user satisfaction ratings.  
+
 **Functionality Testing:**  
 -	Objective: Ensure core features work as expected (profile management, stat updates, game log additions).  
 -	Testers: Developers and QA.  
 -	Method: Test cases covering all features (e.g., editing player stats, adding notes to game logs).  
 -	Success Metrics: All features should function without crashes or errors, and data should be stored accurately.  
+
 **Performance Testing:**  
 -	Objective: Validate that the application works smoothly under load.  
 -	Testers: Simulated users (using tools like JMeter).  
 -	Method: Simulate multiple users accessing and updating profiles and game logs simultaneously.  
 -	Success Metrics: No performance degradation, response times within acceptable ranges.  
+
 **Security Testing:**  
 -	Objective: Ensure the application is secure, with no vulnerabilities.  
 -	Testers: Security specialists or penetration testers.  
@@ -345,26 +358,26 @@ Key risks identified and mitigation strategies:
 **Scenario 1: Player Profile Creation and Editing**  
 -	Test Objective: Verify that a user can create a profile, edit it, and the changes are saved correctly.  
 -	Steps:  
- 1.	User clicks "Create Profile".  
- 2.	User inputs character details and saves.  
- 3.	User later edits the profile and updates the stats.  
- 4.	Verify changes are reflected in the profile.  
+1.	User clicks "Create Profile".  
+2.	User inputs character details and saves.  
+3.	User later edits the profile and updates the stats.  
+4.	Verify changes are reflected in the profile.  
 -	Expected Outcome: The profile is created, and edits are saved successfully without errors.
 
 **Scenario 2: Game Log Updates**  
 -	Test Objective: Ensure that users can add and view game logs accurately.  
 -	Steps:  
- 1.	User adds a new log entry.  
- 2.	Log is timestamped and saved.  
- 3.	Verify that the log is visible in the game log section.  
+1.	User adds a new log entry.  
+2.	Log is timestamped and saved.  
+3.	Verify that the log is visible in the game log section.  
 -	Expected Outcome: Logs are correctly saved and displayed to all relevant users.  
 
 **Scenario 3: GM Overrides Player Stats**  
 -	Test Objective: Validate that the GM can override player stats and the changes are logged.  
 -	Steps:  
- 1.	GM clicks "Override Stats" for a player.  
- 2.	GM modifies stats (e.g., HP, skills).  
- 3.	Verify the new stats are reflected and visible to the player.  
+1.	GM clicks "Override Stats" for a player.  
+2.	GM modifies stats (e.g., HP, skills).  
+3.	Verify the new stats are reflected and visible to the player.  
 -	Expected Outcome: Stats are successfully overridden, and the action is logged.  
 
 ### 4. User Feedback and Iteration  
