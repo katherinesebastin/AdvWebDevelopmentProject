@@ -186,7 +186,33 @@ Outcome:
 
 ## 3. UI Prototypes
 
-The prototypes have been added to Phase 1 as .png files. 
+## 3. UI Prototypes
+
+### Prototype Objectives
+Before designing the Prototype we decided on specific objectives we wanted to achieve during the Prototype development
+-	Define Key functionalities and interactions
+-	Designing a rough outline of the web page design
+-	Testing usability of intended features
+  
+### Prototype Development
+When designing the Prototype we started with sketching out the layout on paper and then implementing the Prototype in Figma to create an interactive prototype to test the interactions.
+
+In our design we want to include the following elements:
+-	A home screen that allows the user to add, delete and create new Campaigns that contain Player Profiles
+-	Clicking on a Campaign opens a dropdown menu that allows the user to select, add or delete a Character Profile
+-	The Player Profiles contain information about the Characters stats, health and stamina as well as skills and equipment, another feature is the Game Log which can be used to note down information about the current Campaign
+-	Players can modify the stats of their own Profiles and add their own entries into the Game Log
+-	The Game Master Pages allows the Game Master to click on a Player Profile to modify the Profile or add Game Log entries specific to a Profile, additionally the Game Master can also add Game Log Entries in the GM view page that are then accessible to every player in their game logs
+
+In our Figma Prototype we implemented some of the above mentioned features to test our general principle and idea. The core features seem to be working quite well and the layout seems to be clear to understand. However, navigation between the different pages could be improved. Some of the modify pages can’t be accessed and there is no fast way to return back to the GM view after modifying a player profile.
+Based on this we plan on implementing a save changes button as well as a return to GM view after overriding the stats of a player profile
+
+### Link to Figma Prototype:
+
+https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t=9NSaB4SpQb5XaSzs-1
+
+The paper prototypes have been added to Phase 1 as .png files. 
+
 
 ## 4. Information Architecture and Technical Design
 
