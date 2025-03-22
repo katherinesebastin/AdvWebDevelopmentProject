@@ -186,7 +186,7 @@ Outcome:
 
 ## 3. UI Prototypes
 
-Add something
+The prototypes have been added to Phase 1 as .png files. 
 
 ## 4. Information Architecture and Technical Design
 
