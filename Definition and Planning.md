@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/91e137a4-04e3-41e3-af28-45efd32ef406)# Project phase 1 - Definition and planning
+# Project phase 1 - Definition and planning
 
 ## 1. User Personas
 
