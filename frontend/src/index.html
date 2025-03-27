@@ -6,21 +6,10 @@
   <title>Campaigns</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Campaigns</h1>
-
-    <!-- Modify Button -->
-    <button id="modifyBtn">Modify</button>
-
-    <!-- Modify section (hidden by default) -->
-    <div id="modifySection" style="display:none;">
-      <button id="addCampaignBtn">Add New Campaign</button>
-    </div>
-
-    <!-- Campaign List (Always visible) -->
-    <div id="campaignList"></div> <!-- Display campaigns here -->
-  </div>
-
-  <script src="script.js"></script>
+  <div id="root"></div> <!-- React app will render here -->
+  
+  <!-- No need for static campaign buttons here anymore -->
+  
+  <script src="/static/js/bundle.js"></script> <!-- React will automatically inject the correct script -->
 </body>
 </html>
