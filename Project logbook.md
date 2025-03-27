@@ -11,5 +11,6 @@
 | 22.3.2025 | 2.5 | Planning the phase 1  | Defining information architecture and technical design |
 | 22.3.2025 | 2 | Planning the phase 1  | Defining project managemnet and user testing |
 | 22.3.2025 | 2,5 | Planning the phase 1  | Implementing Prototype in Figma and testing interactions |
+| 24.3.2025 | 2,5 | Phase 2  | Setting up Postgres database and working on backend functionalities for dashboard page |
 
 
