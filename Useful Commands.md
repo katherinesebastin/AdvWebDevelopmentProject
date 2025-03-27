@@ -5,7 +5,7 @@ npm run dev
 npm start
 
 # Databases
-Log into Postgres: psql -h localhost -U postgres -d digital_score_stat_keeper
+Log into Postgres (Password: 1234): psql -h localhost -U postgres -d digital_score_stat_keeper
 
 ## Create Table: Profiles
 CREATE TABLE profiles (
