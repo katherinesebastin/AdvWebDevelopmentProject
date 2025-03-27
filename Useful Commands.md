@@ -1,7 +1,17 @@
-# Start Backend
-npm run dev
+#Github
+git status // show status
+git checkout branchname // change branch
+## Pull from Github
+git pull origin Code
+## Push to Github
+git add .
+git commit -m "commit message"
+git push origin Code
 
-# Start Frontend
+## Start Code
+## Start Backend
+npm run dev
+## Start Frontend
 npm start
 
 # Databases
