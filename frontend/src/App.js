@@ -21,17 +21,23 @@ const App = () => {
   };
 
   const deleteCampaign = async (id) => {
+    if (isNaN(id)) {
+      console.error('Invalid campaign ID');
+      return;
+    }
+
     try {
       // Send the DELETE request with the correct ID
       await axios.delete(`http://localhost:5001/campaigns/${id}`);
-  
+
       // Remove the campaign from the state after successful deletion
       setCampaigns(campaigns.filter(campaign => campaign.id !== id)); // Ensure 'id' is the correct property name here
     } catch (error) {
       console.error('Error deleting campaign:', error);
     }
   };
-  
+
+
 
   return (
     <div className="p-8">
@@ -74,7 +80,7 @@ const App = () => {
                   </Link>
                 </span>
                 <button
-                  onClick={() => deleteCampaign(campaign.name)}
+                  onClick={() => deleteCampaign(campaign.id)}
                   className="ml-2 p-1 bg-red-500 text-white rounded"
                 >
                   Delete

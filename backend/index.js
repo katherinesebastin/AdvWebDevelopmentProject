@@ -30,11 +30,35 @@ app.get('/campaigns', async (req, res) => {
 });
 
 // Delete a campaign
+// Delete the campaign and related profiles
 app.delete('/campaigns/:id', async (req, res) => {
   const { id } = req.params;
-  await pool.query('DELETE FROM campaigns WHERE id = $1', [id]);
-  res.sendStatus(204);
+  const client = await pool.connect();
+
+  try {
+    // Start a transaction to ensure atomicity
+    await client.query('BEGIN');
+
+    // Delete the related profiles first
+    await client.query('DELETE FROM profiles WHERE campaign_id = $1', [id]);
+
+    // Then delete the campaign
+    await client.query('DELETE FROM campaigns WHERE id = $1', [id]);
+
+    // Commit the transaction
+    await client.query('COMMIT');
+
+    res.sendStatus(204);
+  } catch (error) {
+    // If anything fails, rollback the transaction
+    await client.query('ROLLBACK');
+    console.error('Error deleting campaign and profiles:', error);
+    res.status(500).json({ message: 'Error deleting campaign and profiles', error: error });
+  } finally {
+    client.release();
+  }
 });
+
 
 // Update campaign name
 app.patch('/campaigns/:id', async (req, res) => {
@@ -97,7 +121,7 @@ app.get('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
       'SELECT * FROM profiles WHERE campaign_name = $1 AND name = $2',
       [campaignName, profileName]
     );
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Profile not found' });
     }
