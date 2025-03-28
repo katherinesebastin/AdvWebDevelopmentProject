@@ -74,26 +74,28 @@ app.patch('/campaigns/:id', async (req, res) => {
 });
 
 // Get a specific campaign by name and list all its profiles
-app.get('/campaigns/:campaignName', async (req, res) => {
-  const { campaignName } = req.params;
+app.get('/campaigns/:id', async (req, res) => {
+  const { id } = req.params;
 
   try {
-    const result = await pool.query('SELECT * FROM campaigns WHERE name = $1', [campaignName]);
+    const result = await pool.query('SELECT * FROM campaigns WHERE id = $1', [id]);
+
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Campaign not found' });
     }
 
-    const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_name = $1', [campaignName]);
-    const profiles = profilesResult.rows;
+    const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_id = $1', [id]);
 
     res.json({
       campaign: result.rows[0],
-      profiles: profiles
+      profiles: profilesResult.rows,
     });
   } catch (err) {
+    console.error('Error fetching campaign:', err);
     res.status(500).json({ message: 'Error fetching campaign and profiles', error: err });
   }
 });
+
 
 // Player Profiles Endpoints
 // Create a new profile for a specific campaign

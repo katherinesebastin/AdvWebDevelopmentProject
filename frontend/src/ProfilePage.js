@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';  // Add this line to import axios
 
 const ProfilePage = () => {
-  const { campaignName } = useParams();  // Get the campaignName from the URL
+  const { id } = useParams();  // Uses id (CORRECT)
+
 
   const [campaignDetails, setCampaignDetails] = useState(null);
 
   useEffect(() => {
-    // Fetch campaign details based on the campaign name
-    axios.get(`http://localhost:5001/campaigns/${campaignName}`).then(response => {
+    axios.get(`http://localhost:5001/campaigns/${id}`).then(response => {
       setCampaignDetails(response.data);
     });
-  }, [campaignName]);  // Re-fetch when campaignName changes
+  }, [id]);  // ✅ Corrected
+
 
   if (!campaignDetails) return <div>Loading...</div>;
 
@@ -20,9 +21,24 @@ const ProfilePage = () => {
     <div>
       <h1>{campaignDetails.name}</h1>
       <p>{campaignDetails.description}</p>
-      {/* Render other campaign details here */}
+      {/* Render other campaign details here *//*}
+    </div>
+  );
+};
+
+export default ProfilePage*/
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
+const ProfilePage = () => {
+  const { id } = useParams();  // Get campaign ID from URL
+
+  return (
+    <div>
+      <h1>Page for Campaign: {id}</h1>
     </div>
   );
 };
 
 export default ProfilePage;
+
