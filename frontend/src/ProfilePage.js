@@ -1,8 +1,9 @@
+// src/PlayerProfilePage.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';  // Import Link
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const ProfilePage = () => {
+const PlayerProfilePage = () => {
   const { id } = useParams();  // Get campaign ID from URL
   const navigate = useNavigate();  // Initialize navigate function
 
@@ -20,8 +21,8 @@ const ProfilePage = () => {
       .then(response => {
         const { campaign, profiles, gm_profile } = response.data;
         console.log('Campaign:', campaign);
-        console.log('Profiles:', profiles);  // Should be an empty array if no profiles
-        console.log('GM Profile:', gm_profile);  // Will be null if no GM profile found
+        console.log('Profiles:', profiles);
+        console.log('GM Profile:', gm_profile);
 
         // Set the state
         setCampaign(campaign);  // Set the campaign
@@ -46,9 +47,7 @@ const ProfilePage = () => {
   // Function to add a new profile
   const addProfile = async () => {
     try {
-      console.log('Adding profile:', newProfileName); // Log the profile name
       const response = await axios.post(`http://localhost:5001/campaigns/${id}/profiles`, { name: newProfileName });
-      console.log('Response:', response.data);  // Log the response data
       setProfiles([...profiles, response.data]);
       setNewProfileName('');  // Reset the input field after adding the profile
     } catch (error) {
@@ -82,8 +81,6 @@ const ProfilePage = () => {
   const saveEdit = async (profileId) => {
     try {
       const response = await axios.put(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`, { name: editedProfileName });
-      console.log('Response:', response.data);  // Log the response data
-      // Update the profile in the state with the new name
       setProfiles(profiles.map(profile =>
         profile.id === profileId ? { ...profile, name: editedProfileName } : profile
       ));
@@ -140,7 +137,9 @@ const ProfilePage = () => {
                     <span>{profile.name} (GM)</span> // Display GM profile without delete button
                   ) : (
                     <div className="flex justify-between">
-                      <span>{profile.name}</span>
+                      <Link to={`/player/${id}/${profile.id}`} className="cursor-pointer text-blue-600">
+                        {profile.name}
+                      </Link>
                     </div>
                   )}
                 </li>
@@ -220,4 +219,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default PlayerProfilePage;
