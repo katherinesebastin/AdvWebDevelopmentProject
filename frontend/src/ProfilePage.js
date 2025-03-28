@@ -54,27 +54,21 @@ const ProfilePage = () => {
     }
   };
 
-
-  // Function to delete a profile (ensure GM profile is not deleted)
   // Function to delete a profile (ensure GM profile is not deleted)
   const deleteProfile = async (profileId) => {
-    // Prevent deletion of GM profile
     const profileToDelete = profiles.find(profile => profile.id === profileId);
     if (profileToDelete.name === 'GM') {
-      // Do not allow deleting the GM profile
+      // Prevent deletion of GM profile
       return;
     }
 
     try {
-      // Send the correct request to the backend
       await axios.delete(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`);
-      // Update the profiles state to reflect the deletion
       setProfiles(profiles.filter(profile => profile.id !== profileId));
     } catch (error) {
       console.error('Error deleting profile:', error);
     }
   };
-
 
   return (
     <div>
@@ -123,12 +117,6 @@ const ProfilePage = () => {
                   ) : (
                     <div className="flex justify-between">
                       <span>{profile.name}</span>
-                      <button
-                        onClick={() => deleteProfile(profile.id)}
-                        className="ml-2 p-1 bg-red-500 text-white rounded"
-                      >
-                        Delete
-                      </button>
                     </div>
                   )}
                 </li>
