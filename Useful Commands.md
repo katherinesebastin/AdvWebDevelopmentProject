@@ -8,6 +8,9 @@ git add .
 git commit -m "commit message"
 git push origin Code
 
+## Delete Command when Pulling from Github
+git checkout -- frontend/node_modules/.cache/
+
 ## Start Code
 ## Start Backend
 npm run dev
