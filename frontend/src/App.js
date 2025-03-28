@@ -7,6 +7,8 @@ const App = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignName, setCampaignName] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [editedName, setEditedName] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:5001/campaigns').then(response => {
@@ -31,6 +33,22 @@ const App = () => {
       setCampaigns(campaigns.filter(campaign => campaign.id !== id));
     } catch (error) {
       console.error('Error deleting campaign:', error);
+    }
+  };
+
+  const startEditing = (id, name) => {
+    setEditingId(id);
+    setEditedName(name);
+  };
+
+  const saveEdit = async (id) => {
+    try {
+      // Change this to a PATCH request instead of PUT
+      const response = await axios.patch(`http://localhost:5001/campaigns/${id}`, { name: editedName });
+      setCampaigns(campaigns.map(camp => (camp.id === id ? { ...camp, name: editedName } : camp)));
+      setEditingId(null);
+    } catch (error) {
+      console.error('Error updating campaign:', error);
     }
   };
 
@@ -69,19 +87,41 @@ const App = () => {
                     Add New Campaign
                   </button>
 
-                  {/* List of Campaigns with Delete Option */}
+                  {/* List of Campaigns with Edit/Delete Options */}
                   <ul className="mt-4">
                     {campaigns.map(campaign => (
                       <li key={campaign.id} className="flex justify-between items-center mb-2">
-                        <span className="cursor-pointer text-blue-600">
-                          <Link to={`/campaigns/${campaign.id}`}>{campaign.name}</Link>
-                        </span>
-                        <button
-                          onClick={() => deleteCampaign(campaign.id)}
-                          className="ml-2 p-1 bg-red-500 text-white rounded"
-                        >
-                          Delete
-                        </button>
+                        {editingId === campaign.id ? (
+                          <input
+                            type="text"
+                            value={editedName}
+                            onChange={(e) => setEditedName(e.target.value)}
+                            className="border p-1 rounded"
+                          />
+                        ) : (
+                          <span
+                            className="cursor-pointer text-blue-600"
+                            onClick={() => startEditing(campaign.id, campaign.name)}
+                          >
+                            {campaign.name}
+                          </span>
+                        )}
+                        <div>
+                          {editingId === campaign.id ? (
+                            <button
+                              onClick={() => saveEdit(campaign.id)}
+                              className="ml-2 p-1 bg-green-500 text-white rounded"
+                            >
+                              Save
+                            </button>
+                          ) : null}
+                          <button
+                            onClick={() => deleteCampaign(campaign.id)}
+                            className="ml-2 p-1 bg-red-500 text-white rounded"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </li>
                     ))}
                   </ul>
