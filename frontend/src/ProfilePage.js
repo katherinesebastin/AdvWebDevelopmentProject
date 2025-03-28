@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';  // Import Link
 import axios from 'axios';
 
 const ProfilePage = () => {
@@ -120,7 +120,7 @@ const ProfilePage = () => {
           {gmProfile ? (
             <div className="mb-4">
               <h3>GM Profile</h3>
-              <p>{gmProfile.name} (GM)</p>
+              <Link to={`/gm/${id}`}>{gmProfile.name} (GM)</Link> {/* Link to GM View */}
             </div>
           ) : (
             <div className="mb-4">
