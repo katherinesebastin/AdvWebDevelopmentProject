@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, Link, useNavigate } from 'react-router-dom'; 
+import { Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
-import ProfilePage from './ProfilePage';  
+import ProfilePage from './ProfilePage';
 import GMViewPage from './GMViewPage';  // Import the new GM view page
 import PlayerViewPage from './PlayerViewPage';  // Import the new page
 
@@ -23,10 +23,20 @@ const App = () => {
   }, []);
 
   const addCampaign = async () => {
-    const response = await axios.post('http://localhost:5001/campaigns', { name: campaignName });
-    setCampaigns([...campaigns, response.data]);
-    setCampaignName('');
+    try {
+      // Send POST request to add a new campaign
+      const response = await axios.post('http://localhost:5001/campaigns', { name: campaignName });
+
+      // Update campaigns list with the newly added campaign using the latest state
+      setCampaigns(prevCampaigns => [...prevCampaigns, response.data.campaign]);
+
+      // Reset the campaign name input
+      setCampaignName('');
+    } catch (error) {
+      console.error('Error adding campaign:', error);
+    }
   };
+
 
   const deleteCampaign = async (id) => {
     if (isNaN(id)) {
@@ -50,7 +60,7 @@ const App = () => {
   const saveEdit = async (id) => {
     try {
       // Change this to a PATCH request instead of PUT
-      const response = await axios.patch(`http://localhost:5001/campaigns/${id}`, { name: editedName });
+      //const response = await axios.patch(`http://localhost:5001/campaigns/${id}`, { name: editedName });
       setCampaigns(campaigns.map(camp => (camp.id === id ? { ...camp, name: editedName } : camp)));
       setEditingId(null);
     } catch (error) {

@@ -18,20 +18,18 @@ app.use(express.json());
 // Campaigns Endpoints
 // Create a new campaign
 app.post('/campaigns', async (req, res) => {
-  const { name } = req.body;  // Get the campaign name from the request body
+  const { name } = req.body;
   const client = await pool.connect();
 
   try {
-    await client.query('BEGIN');  // Start a transaction
+    await client.query('BEGIN');  // Start transaction
 
     // Create the campaign first
     const campaignResult = await client.query(
       'INSERT INTO campaigns (name) VALUES ($1) RETURNING *',
       [name]
     );
-    const campaign = campaignResult.rows[0];  // Get the campaign details
-
-    console.log('Created campaign:', campaign);
+    const campaign = campaignResult.rows[0];  // Get campaign details
 
     // Insert the GM profile with default values
     const gmProfileResult = await client.query(
@@ -41,21 +39,28 @@ app.post('/campaigns', async (req, res) => {
 
     const gmProfile = gmProfileResult.rows[0];
 
-    await client.query('COMMIT');  // Commit the transaction
-    res.json(campaign);  // Send the created campaign as response
+    await client.query('COMMIT');  // Commit transaction
+    res.json({
+      campaign,
+      gm_profile: gmProfile  // Send both campaign and GM profile
+    });
   } catch (error) {
-    await client.query('ROLLBACK');  // Rollback transaction if any error occurs
+    await client.query('ROLLBACK');  // Rollback transaction on error
     console.error('Error creating campaign and GM profile:', error);
     res.status(500).json({ message: 'Error creating campaign and GM profile', error: error });
   } finally {
-    client.release();  // Release the database client
+    client.release();
   }
 });
 
 // Get all campaigns
 app.get('/campaigns', async (req, res) => {
-  const result = await pool.query('SELECT * FROM campaigns');
-  res.json(result.rows);
+  try {
+    const result = await pool.query('SELECT * FROM campaigns');
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching campaigns', error: err });
+  }
 });
 
 // Delete the campaign and related profiles
@@ -64,22 +69,19 @@ app.delete('/campaigns/:id', async (req, res) => {
   const client = await pool.connect();
 
   try {
-    // Start a transaction to ensure atomicity
-    await client.query('BEGIN');
+    await client.query('BEGIN');  // Start transaction
 
-    // Delete the related profiles first
+    // Delete related profiles
     await client.query('DELETE FROM profiles WHERE campaign_id = $1', [id]);
 
     // Then delete the campaign
     await client.query('DELETE FROM campaigns WHERE id = $1', [id]);
 
-    // Commit the transaction
-    await client.query('COMMIT');
+    await client.query('COMMIT');  // Commit transaction
 
-    res.sendStatus(204);
+    res.sendStatus(204);  // No content, deletion successful
   } catch (error) {
-    // If anything fails, rollback the transaction
-    await client.query('ROLLBACK');
+    await client.query('ROLLBACK');  // Rollback transaction on error
     console.error('Error deleting campaign and profiles:', error);
     res.status(500).json({ message: 'Error deleting campaign and profiles', error: error });
   } finally {
@@ -93,38 +95,34 @@ app.patch('/campaigns/:id', async (req, res) => {
   const { name } = req.body;
 
   try {
-    await pool.query('UPDATE campaigns SET name = $1 WHERE id = $2', [name, campaignId]);
-    res.status(200).json({ message: 'Campaign updated' });
+    const result = await pool.query('UPDATE campaigns SET name = $1 WHERE id = $2 RETURNING *', [name, campaignId]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Campaign not found' });
+    }
+    res.json(result.rows[0]);  // Return updated campaign data
   } catch (err) {
     res.status(500).json({ message: 'Error updating campaign', error: err });
   }
 });
 
+// Get a specific campaign by ID along with profiles and GM profile
 app.get('/campaigns/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Fetch the campaign by id
     const result = await pool.query('SELECT * FROM campaigns WHERE id = $1', [id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Campaign not found' });
     }
 
-    // Fetch profiles from the profiles table
     const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_id = $1', [id]);
-
-    // Fetch the GM profile from the gm_profiles table
     const gmResult = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
 
-    // Log GM result to check the fetched data
-    console.log("GM Profile:", gmResult.rows[0]);
-
-    // Respond with campaign data, profiles, and GM profile
     res.json({
       campaign: result.rows[0],
-      profiles: profilesResult.rows,  // Empty array if no profiles
-      gm_profile: gmResult.rows[0] || null,  // GM profile, or null if not found
+      profiles: profilesResult.rows,
+      gm_profile: gmResult.rows[0] || null,
     });
   } catch (err) {
     console.error('Error fetching campaign and profiles:', err);
@@ -132,53 +130,45 @@ app.get('/campaigns/:id', async (req, res) => {
   }
 });
 
-app.get('/gm_profiles/:id', async (req, res) => {
+// Disable ETag and set Cache-Control headers globally or for specific routes
+app.set('etag', false);  // Disables ETag headers globally
+
+// Function to disable caching headers for specific routes
+const disableCacheHeaders = (res) => {
+  res.set({
+    'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+    'Surrogate-Control': 'no-store',
+    'ETag': ''  // Disable ETag
+  });
+};
+
+// Campaigns Profiles Route
+app.get('/campaigns/:id/profiles', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const result = await pool.query(
-      'SELECT * FROM gm_profiles WHERE id = $1',
-      [id]
-    );
+    const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_id = $1', [id]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'GM profile not found' });
-    }
+    // Disable caching for this response
+    disableCacheHeaders(res);
 
-    res.json(result.rows[0]);  // Return the GM profile data
-  } catch (error) {
-    console.error('Error fetching GM profile:', error);
-    res.status(500).json({ message: 'Error fetching GM profile', error: error });
-  }
-});
-
-
-// Player Profiles Endpoints
-// Create a new profile for a specific campaign
-app.post('/campaigns/:id/profiles', async (req, res) => {
-  const { id } = req.params;  // Get campaign ID
-  const { name, stats, equipment, skills } = req.body;  // Get profile data from body
-
-  try {
-    const result = await pool.query(
-      'INSERT INTO profiles (campaign_id, name, stats, equipment, skills) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [id, name, stats, equipment, skills]  // Use 'id' here instead of 'campaignName'
-    );
-    res.json(result.rows[0]);  // Respond with the newly created profile
+    res.json(profilesResult.rows);
   } catch (err) {
-    res.status(500).json({ message: 'Error creating profile', error: err });
+    console.error('Error fetching profiles:', err);
+    res.status(500).json({ message: 'Error fetching profiles', error: err });
   }
 });
-
 
 // Get a specific profile within a campaign
-app.get('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
-  const { campaignName, profileName } = req.params;
+app.get('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
+  const { campaignId, profileName } = req.params;
 
   try {
     const result = await pool.query(
-      'SELECT * FROM profiles WHERE campaign_name = $1 AND name = $2',
-      [campaignName, profileName]
+      'SELECT * FROM profiles WHERE campaign_id = $1 AND name = $2',
+      [campaignId, profileName]
     );
 
     if (result.rows.length === 0) {
@@ -187,42 +177,40 @@ app.get('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error fetching profile:', err);
     res.status(500).json({ message: 'Error fetching profile', error: err });
   }
 });
 
-app.put('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
-  const { campaignId, profileName } = req.params;
+// Create a new profile for a specific campaign
+app.post('/campaigns/:id/profiles', async (req, res) => {
+  const { id } = req.params;
   const { name, stats, equipment, skills } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE profiles SET name = $1, stats = $2, equipment = $3, skills = $4 WHERE campaign_id = $5 AND name = $6 RETURNING *',
-      [name, stats, equipment, skills, campaignId, profileName]
+      'INSERT INTO profiles (campaign_id, name, stats, equipment, skills) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [id, name, stats, equipment, skills]
     );
-
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('Error updating profile:', err);  // Log the error
-    res.status(500).json({ message: 'Error updating profile', error: err });
+    res.status(500).json({ message: 'Error creating profile', error: err });
   }
 });
 
-
 // Delete a profile
 app.delete('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
-  const { campaignId, profileId } = req.params;  // Get campaignId and profileId from URL
+  const { campaignId, profileId } = req.params;
 
   try {
-    // Assuming you are deleting by campaignId and profileId
     await pool.query('DELETE FROM profiles WHERE campaign_id = $1 AND id = $2', [campaignId, profileId]);
-    res.sendStatus(204);  // No Content, successful deletion
+    res.sendStatus(204);  // No Content
   } catch (err) {
     res.status(500).json({ message: 'Error deleting profile', error: err });
   }
 });
 
-// Game Logs Endpoints (unchanged from before, assuming these are required)
+// Game Logs Endpoints
 app.post('/gamelogs', async (req, res) => {
   const { profile_id, entry } = req.body;
   const result = await pool.query(

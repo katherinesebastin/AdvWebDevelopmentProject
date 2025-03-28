@@ -80,7 +80,7 @@ const PlayerProfilePage = () => {
   // Function to save the edited profile name
   const saveEdit = async (profileId) => {
     try {
-      const response = await axios.put(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`, { name: editedProfileName });
+      //const response = await axios.put(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`, { name: editedProfileName });
       setProfiles(profiles.map(profile =>
         profile.id === profileId ? { ...profile, name: editedProfileName } : profile
       ));
