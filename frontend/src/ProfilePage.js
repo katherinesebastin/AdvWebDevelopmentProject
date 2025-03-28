@@ -17,7 +17,11 @@ const ProfilePage = () => {
     axios.get(`http://localhost:5001/campaigns/${id}`)
       .then(response => {
         const { campaign, profiles, gm_profile } = response.data;
-        // Handle the response, set the campaign, profiles, and GM profile in your state
+        console.log('Campaign:', campaign);
+        console.log('Profiles:', profiles);  // Should be an empty array if no profiles
+        console.log('GM Profile:', gm_profile);  // Will be null if no GM profile found
+
+        // Set the state
         setCampaign(campaign);  // Set the campaign
         setProfiles(profiles);  // Set the profiles
         setGMProfile(gm_profile);  // Set the GM profile
@@ -67,7 +71,6 @@ const ProfilePage = () => {
     <div>
       <h1>Campaign: {campaign ? campaign.name : 'Loading...'}</h1>
 
-      {/* Button to go back to the Campaigns page */}
       <button
         onClick={goToCampaigns}
         className="p-2 bg-blue-500 text-white rounded fixed bottom-4 left-4"
@@ -83,28 +86,45 @@ const ProfilePage = () => {
         {editMode ? 'Exit Edit View' : 'Edit'}
       </button>
 
-      {/* Default View - List of Profiles */}
+      {/* Default View - GM Profile and Profiles */}
       {!editMode ? (
         <div>
+          {/* GM Profile */}
+          {gmProfile ? (
+            <div className="mb-4">
+              <h3>GM Profile</h3>
+              <p>{gmProfile.name} (GM)</p>
+            </div>
+          ) : (
+            <div className="mb-4">
+              <p>No GM Profile found.</p>
+            </div>
+          )}
+
+          {/* Profiles */}
           <h2 className="text-2xl mb-4">Profiles</h2>
           <ul>
-            {profiles.map(profile => (
-              <li key={profile.id} className="mb-2">
-                {profile.name === 'GM' ? (
-                  <span>{profile.name} (GM)</span> // Display GM profile without delete button
-                ) : (
-                  <div className="flex justify-between">
-                    <span>{profile.name}</span>
-                    <button
-                      onClick={() => deleteProfile(profile.id)}
-                      className="ml-2 p-1 bg-red-500 text-white rounded"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </li>
-            ))}
+            {profiles.length === 0 ? (
+              <p>No profiles created yet.</p>
+            ) : (
+              profiles.map(profile => (
+                <li key={profile.id} className="mb-2">
+                  {profile.name === 'GM' ? (
+                    <span>{profile.name} (GM)</span> // Display GM profile without delete button
+                  ) : (
+                    <div className="flex justify-between">
+                      <span>{profile.name}</span>
+                      <button
+                        onClick={() => deleteProfile(profile.id)}
+                        className="ml-2 p-1 bg-red-500 text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       ) : (
@@ -128,23 +148,27 @@ const ProfilePage = () => {
           </button>
 
           <ul className="mt-4">
-            {profiles.map(profile => (
-              <li key={profile.id} className="flex justify-between mb-2">
-                {profile.name === 'GM' ? (
-                  <span>{profile.name} (GM)</span> // GM profile remains non-deletable
-                ) : (
-                  <div className="flex justify-between">
-                    <span>{profile.name}</span>
-                    <button
-                      onClick={() => deleteProfile(profile.id)}
-                      className="ml-2 p-1 bg-red-500 text-white rounded"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                )}
-              </li>
-            ))}
+            {profiles.length === 0 ? (
+              <p>No profiles created yet.</p>
+            ) : (
+              profiles.map(profile => (
+                <li key={profile.id} className="flex justify-between mb-2">
+                  {profile.name === 'GM' ? (
+                    <span>{profile.name} (GM)</span> // GM profile remains non-deletable
+                  ) : (
+                    <div className="flex justify-between">
+                      <span>{profile.name}</span>
+                      <button
+                        onClick={() => deleteProfile(profile.id)}
+                        className="ml-2 p-1 bg-red-500 text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       )}
@@ -152,4 +176,5 @@ const ProfilePage = () => {
   );
 };
 
+// Export ProfilePage at the bottom of the file
 export default ProfilePage;

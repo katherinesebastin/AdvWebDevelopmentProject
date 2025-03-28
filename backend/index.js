@@ -126,18 +126,20 @@ app.get('/campaigns/:id', async (req, res) => {
     // Fetch the GM profile from the gm_profiles table
     const gmResult = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
 
+    // Log GM result to check the fetched data
+    console.log("GM Profile:", gmResult.rows[0]);
+
+    // Respond with campaign data, profiles, and GM profile
     res.json({
       campaign: result.rows[0],
-      profiles: profilesResult.rows,
-      gm_profile: gmResult.rows[0] || null,  // Return GM profile if exists, otherwise null
+      profiles: profilesResult.rows,  // Empty array if no profiles
+      gm_profile: gmResult.rows[0] || null,  // GM profile, or null if not found
     });
   } catch (err) {
     console.error('Error fetching campaign and profiles:', err);
     res.status(500).json({ message: 'Error fetching campaign and profiles', error: err });
   }
 });
-
-
 
 app.get('/gm_profiles/:id', async (req, res) => {
   const { id } = req.params;
