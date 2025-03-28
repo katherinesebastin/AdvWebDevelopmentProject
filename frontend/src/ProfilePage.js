@@ -28,17 +28,32 @@ const ProfilePage = () => {
 
 export default ProfilePage*/
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const ProfilePage = () => {
   const { id } = useParams();  // Get campaign ID from URL
+  const navigate = useNavigate();  // Initialize navigate function
+
+  // Function to navigate back to the main page
+  const goToCampaigns = () => {
+    navigate('/');  // Navigate to the homepage (main page)
+  };
 
   return (
     <div>
       <h1>Page for Campaign: {id}</h1>
+
+      {/* Button to go back to the Campaigns page */}
+      <button
+        onClick={goToCampaigns}
+        className="p-2 bg-blue-500 text-white rounded fixed bottom-4 left-4"
+      >
+        Campaigns
+      </button>
     </div>
   );
 };
 
 export default ProfilePage;
+
 
