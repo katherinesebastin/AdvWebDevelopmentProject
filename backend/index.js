@@ -17,11 +17,47 @@ app.use(express.json());
 
 // Campaigns Endpoints
 // Create a new campaign
-app.post('/campaigns', async (req, res) => {
+/*app.post('/campaigns', async (req, res) => {
   const { name } = req.body;
   const result = await pool.query('INSERT INTO campaigns (name) VALUES ($1) RETURNING *', [name]);
   res.json(result.rows[0]);
+});*/
+app.post('/campaigns', async (req, res) => {
+  const { name } = req.body;  // Get the campaign name from the request body
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');  // Start a transaction
+
+    // Create the campaign first
+    const campaignResult = await client.query(
+      'INSERT INTO campaigns (name) VALUES ($1) RETURNING *',
+      [name]
+    );
+    const campaign = campaignResult.rows[0];  // Get the campaign details
+
+    console.log('Created campaign:', campaign);
+
+    // Insert the GM profile with default values
+    const gmProfileResult = await client.query(
+      'INSERT INTO gm_profiles (campaign_id, discoveries, battles, notes) VALUES ($1, $2, $3, $4) RETURNING *',
+      [campaign.id, [], [], []]  // Empty arrays for discoveries, battles, and notes
+    );
+
+    const gmProfile = gmProfileResult.rows[0];
+    console.log('Created GM profile:', gmProfile);  // Log GM profile creation
+
+    await client.query('COMMIT');  // Commit the transaction
+    res.json(campaign);  // Send the created campaign as response
+  } catch (error) {
+    await client.query('ROLLBACK');  // Rollback transaction if any error occurs
+    console.error('Error creating campaign and GM profile:', error);
+    res.status(500).json({ message: 'Error creating campaign and GM profile', error: error });
+  } finally {
+    client.release();  // Release the database client
+  }
 });
+
 
 // Get all campaigns
 app.get('/campaigns', async (req, res) => {
@@ -73,26 +109,53 @@ app.patch('/campaigns/:id', async (req, res) => {
   }
 });
 
-// Get a specific campaign by name and list all its profiles
 app.get('/campaigns/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
+    // Fetch the campaign by id
     const result = await pool.query('SELECT * FROM campaigns WHERE id = $1', [id]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Campaign not found' });
     }
 
+    // Fetch profiles from the profiles table
     const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_id = $1', [id]);
+
+    // Fetch the GM profile from the gm_profiles table
+    const gmResult = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
 
     res.json({
       campaign: result.rows[0],
       profiles: profilesResult.rows,
+      gm_profile: gmResult.rows[0] || null,  // Return GM profile if exists, otherwise null
     });
   } catch (err) {
-    console.error('Error fetching campaign:', err);
+    console.error('Error fetching campaign and profiles:', err);
     res.status(500).json({ message: 'Error fetching campaign and profiles', error: err });
+  }
+});
+
+
+
+app.get('/gm_profiles/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM gm_profiles WHERE id = $1',
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'GM profile not found' });
+    }
+
+    res.json(result.rows[0]);  // Return the GM profile data
+  } catch (error) {
+    console.error('Error fetching GM profile:', error);
+    res.status(500).json({ message: 'Error fetching GM profile', error: error });
   }
 });
 
