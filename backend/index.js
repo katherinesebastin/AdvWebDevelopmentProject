@@ -191,22 +191,23 @@ app.get('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
   }
 });
 
-// Update a profile
-app.put('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
-  const { campaignName, profileName } = req.params;
-  const { stats, equipment, skills } = req.body;
+app.put('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
+  const { campaignId, profileName } = req.params;
+  const { name, stats, equipment, skills } = req.body;
 
   try {
     const result = await pool.query(
-      'UPDATE profiles SET stats = $1, equipment = $2, skills = $3 WHERE campaign_name = $4 AND name = $5 RETURNING *',
-      [stats, equipment, skills, campaignName, profileName]
+      'UPDATE profiles SET name = $1, stats = $2, equipment = $3, skills = $4 WHERE campaign_id = $5 AND name = $6 RETURNING *',
+      [name, stats, equipment, skills, campaignId, profileName]
     );
 
     res.json(result.rows[0]);
   } catch (err) {
+    console.error('Error updating profile:', err);  // Log the error
     res.status(500).json({ message: 'Error updating profile', error: err });
   }
 });
+
 
 // Delete a profile
 app.delete('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {

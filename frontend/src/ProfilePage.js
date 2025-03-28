@@ -11,6 +11,8 @@ const ProfilePage = () => {
   const [gmProfile, setGMProfile] = useState(null);  // State for GM Profile
   const [editMode, setEditMode] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
+  const [editingProfileId, setEditingProfileId] = useState(null);  // Track the profile being edited
+  const [editedProfileName, setEditedProfileName] = useState('');  // Track the new name for the profile being edited
 
   useEffect(() => {
     // Fetch campaign and profiles including the GM profile
@@ -67,6 +69,28 @@ const ProfilePage = () => {
       setProfiles(profiles.filter(profile => profile.id !== profileId));
     } catch (error) {
       console.error('Error deleting profile:', error);
+    }
+  };
+
+  // Function to start editing a profile name
+  const startEditing = (profileId, profileName) => {
+    setEditingProfileId(profileId);
+    setEditedProfileName(profileName);  // Set the current profile name in the input field
+  };
+
+  // Function to save the edited profile name
+  const saveEdit = async (profileId) => {
+    try {
+      const response = await axios.put(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`, { name: editedProfileName });
+      console.log('Response:', response.data);  // Log the response data
+      // Update the profile in the state with the new name
+      setProfiles(profiles.map(profile =>
+        profile.id === profileId ? { ...profile, name: editedProfileName } : profile
+      ));
+      setEditingProfileId(null);  // Reset editing state
+      setEditedProfileName('');  // Reset the input field
+    } catch (error) {
+      console.error('Error saving edited profile:', error);
     }
   };
 
@@ -154,13 +178,36 @@ const ProfilePage = () => {
                     <span>{profile.name} (GM)</span> // GM profile remains non-deletable
                   ) : (
                     <div className="flex justify-between">
-                      <span>{profile.name}</span>
-                      <button
-                        onClick={() => deleteProfile(profile.id)}
-                        className="ml-2 p-1 bg-red-500 text-white rounded"
-                      >
-                        Delete
-                      </button>
+                      {editingProfileId === profile.id ? (
+                        <input
+                          type="text"
+                          value={editedProfileName}
+                          onChange={(e) => setEditedProfileName(e.target.value)}
+                          className="border p-2 rounded"
+                        />
+                      ) : (
+                        <span
+                          className="cursor-pointer text-blue-600"
+                          onClick={() => startEditing(profile.id, profile.name)}
+                        >
+                          {profile.name}
+                        </span>
+                      )}
+                      {editingProfileId === profile.id ? (
+                        <button
+                          onClick={() => saveEdit(profile.id)}
+                          className="ml-2 p-1 bg-green-500 text-white rounded"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => deleteProfile(profile.id)}
+                          className="ml-2 p-1 bg-red-500 text-white rounded"
+                        >
+                          Delete
+                        </button>
+                      )}
                     </div>
                   )}
                 </li>
@@ -173,5 +220,4 @@ const ProfilePage = () => {
   );
 };
 
-// Export ProfilePage at the bottom of the file
 export default ProfilePage;
