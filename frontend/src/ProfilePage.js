@@ -44,28 +44,37 @@ const ProfilePage = () => {
   // Function to add a new profile
   const addProfile = async () => {
     try {
+      console.log('Adding profile:', newProfileName); // Log the profile name
       const response = await axios.post(`http://localhost:5001/campaigns/${id}/profiles`, { name: newProfileName });
+      console.log('Response:', response.data);  // Log the response data
       setProfiles([...profiles, response.data]);
-      setNewProfileName('');
+      setNewProfileName('');  // Reset the input field after adding the profile
     } catch (error) {
       console.error('Error adding profile:', error);
     }
   };
 
+
+  // Function to delete a profile (ensure GM profile is not deleted)
   // Function to delete a profile (ensure GM profile is not deleted)
   const deleteProfile = async (profileId) => {
-    if (profiles.find(profile => profile.id === profileId).name === 'GM') {
-      // Prevent deletion of GM profile
+    // Prevent deletion of GM profile
+    const profileToDelete = profiles.find(profile => profile.id === profileId);
+    if (profileToDelete.name === 'GM') {
+      // Do not allow deleting the GM profile
       return;
     }
 
     try {
+      // Send the correct request to the backend
       await axios.delete(`http://localhost:5001/campaigns/${id}/profiles/${profileId}`);
+      // Update the profiles state to reflect the deletion
       setProfiles(profiles.filter(profile => profile.id !== profileId));
     } catch (error) {
       console.error('Error deleting profile:', error);
     }
   };
+
 
   return (
     <div>

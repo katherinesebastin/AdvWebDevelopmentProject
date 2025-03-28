@@ -17,11 +17,6 @@ app.use(express.json());
 
 // Campaigns Endpoints
 // Create a new campaign
-/*app.post('/campaigns', async (req, res) => {
-  const { name } = req.body;
-  const result = await pool.query('INSERT INTO campaigns (name) VALUES ($1) RETURNING *', [name]);
-  res.json(result.rows[0]);
-});*/
 app.post('/campaigns', async (req, res) => {
   const { name } = req.body;  // Get the campaign name from the request body
   const client = await pool.connect();
@@ -45,7 +40,6 @@ app.post('/campaigns', async (req, res) => {
     );
 
     const gmProfile = gmProfileResult.rows[0];
-    console.log('Created GM profile:', gmProfile);  // Log GM profile creation
 
     await client.query('COMMIT');  // Commit the transaction
     res.json(campaign);  // Send the created campaign as response
@@ -58,14 +52,12 @@ app.post('/campaigns', async (req, res) => {
   }
 });
 
-
 // Get all campaigns
 app.get('/campaigns', async (req, res) => {
   const result = await pool.query('SELECT * FROM campaigns');
   res.json(result.rows);
 });
 
-// Delete a campaign
 // Delete the campaign and related profiles
 app.delete('/campaigns/:id', async (req, res) => {
   const { id } = req.params;
@@ -94,7 +86,6 @@ app.delete('/campaigns/:id', async (req, res) => {
     client.release();
   }
 });
-
 
 // Update campaign name
 app.patch('/campaigns/:id', async (req, res) => {
@@ -164,20 +155,21 @@ app.get('/gm_profiles/:id', async (req, res) => {
 
 // Player Profiles Endpoints
 // Create a new profile for a specific campaign
-app.post('/campaigns/:campaignName/profiles', async (req, res) => {
-  const { campaignName } = req.params;
-  const { name, stats, equipment, skills } = req.body;
+app.post('/campaigns/:id/profiles', async (req, res) => {
+  const { id } = req.params;  // Get campaign ID
+  const { name, stats, equipment, skills } = req.body;  // Get profile data from body
 
   try {
     const result = await pool.query(
-      'INSERT INTO profiles (campaign_name, name, stats, equipment, skills) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [campaignName, name, stats, equipment, skills]
+      'INSERT INTO profiles (campaign_id, name, stats, equipment, skills) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [id, name, stats, equipment, skills]  // Use 'id' here instead of 'campaignName'
     );
-    res.json(result.rows[0]);
+    res.json(result.rows[0]);  // Respond with the newly created profile
   } catch (err) {
     res.status(500).json({ message: 'Error creating profile', error: err });
   }
 });
+
 
 // Get a specific profile within a campaign
 app.get('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
@@ -217,11 +209,13 @@ app.put('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
 });
 
 // Delete a profile
-app.delete('/campaigns/:campaignName/profiles/:profileName', async (req, res) => {
-  const { campaignName, profileName } = req.params;
+app.delete('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+  const { campaignId, profileId } = req.params;  // Get campaignId and profileId from URL
+
   try {
-    await pool.query('DELETE FROM profiles WHERE campaign_name = $1 AND name = $2', [campaignName, profileName]);
-    res.sendStatus(204);
+    // Assuming you are deleting by campaignId and profileId
+    await pool.query('DELETE FROM profiles WHERE campaign_id = $1 AND id = $2', [campaignId, profileId]);
+    res.sendStatus(204);  // No Content, successful deletion
   } catch (err) {
     res.status(500).json({ message: 'Error deleting profile', error: err });
   }
