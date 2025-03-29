@@ -15,4 +15,5 @@
 | 27.03.2025 | 4 | Phase 2 | Fixing bugs in the dashboard page, implementing delete button, working on setting up campaign paths |
 | 28.03.2025 | 3,5 | Phase 2 | Fixing routing issue, implementing functionalities for campaign view, adding routs to profiles |
 | 28.03.2025 | 1,5 | Phase 2 | Implementing backend routes for GM view page |
+| 29.03.2025 | 2 | Phase 2 | Fixing profile display in GM view, implementing Game Log functionality |
 
