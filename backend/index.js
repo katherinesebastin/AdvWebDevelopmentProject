@@ -211,6 +211,31 @@ app.delete('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
 });
 
 // Game Logs Endpoints
+// Get the GM profile and game log details for a specific campaign
+app.get('/campaigns/:id/gamelog', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'GM profile not found for this campaign' });
+    }
+
+    const gmProfile = result.rows[0];
+
+    // Return the GM profile including discoveries, battles, and notes
+    res.json({
+      discoveries: gmProfile.discoveries,
+      battles: gmProfile.battles,
+      notes: gmProfile.notes,
+    });
+  } catch (err) {
+    console.error('Error fetching GM profile game log:', err);
+    res.status(500).json({ message: 'Error fetching GM profile game log', error: err });
+  }
+});
+
 app.post('/gamelogs', async (req, res) => {
   const { profile_id, entry } = req.body;
   const result = await pool.query(
