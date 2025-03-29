@@ -1,6 +1,6 @@
 # Github
-git status // show status
-git checkout branchname // change branch
+git status // show status  
+git checkout branchname // change branch  
 ## Pull from Github
 git pull origin Code
 ## Push to Github
