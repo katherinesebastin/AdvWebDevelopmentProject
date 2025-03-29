@@ -186,8 +186,6 @@ Outcome:
 
 ## 3. UI Prototypes
 
-## 3. UI Prototypes
-
 ### Prototype Objectives
 Before designing the Prototype we decided on specific objectives we wanted to achieve during the Prototype development
 -	Define Key functionalities and interactions
@@ -209,10 +207,7 @@ Based on this we plan on implementing a save changes button as well as a return 
 
 ### Link to Figma Prototype:
 
-https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t=9NSaB4SpQb5XaSzs-1
-
-The paper prototypes have been added to Phase 1 as .png files. 
-
+https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t=9NSaB4SpQb5XaSzs-1 
 
 ## 4. Information Architecture and Technical Design
 
