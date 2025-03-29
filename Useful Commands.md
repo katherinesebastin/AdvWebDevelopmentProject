@@ -1,4 +1,4 @@
-#Github
+# Github
 git status // show status
 git checkout branchname // change branch
 ## Pull from Github
@@ -8,28 +8,28 @@ git add .
 git commit -m "commit message"
 git push origin Code
 
-## Delete Command when Pulling from Github
+## Delete command when pulling from Github
 git checkout -- frontend/node_modules/.cache/
 
-## Start Code
+## Run Code
 ## Start Backend
 npm run dev
 ## Start Frontend
 npm start
 
-# Databases
+# Database
 ## Log into Postgres (Password: 1234)
 psql -h localhost -U postgres -d digital_score_stat_keeper
-## List databses
+## List databases
 \l
-## List Tables in database
+## List tables in database
 \dt
-## show table structure
+## Show table structure
 \d table_name
-## exit terminal
+## Exit terminal
 \q
 
-## Create Table: Profiles
+## Create table: profiles
 CREATE TABLE profiles (
   id SERIAL PRIMARY KEY,
   campaign_id INTEGER NOT NULL,
@@ -40,13 +40,13 @@ CREATE TABLE profiles (
   FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
 );
 
-### Add new Colums
+### Add new columns
 ALTER TABLE profiles
 ADD COLUMN discoveries TEXT[] DEFAULT '{}',
 ADD COLUMN battles TEXT[] DEFAULT '{}',
 ADD COLUMN notes TEXT[] DEFAULT '{}';
 
-# Create Table: GM_view profiles
+## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
   id SERIAL PRIMARY KEY,
   campaign_id INTEGER REFERENCES campaigns(id) ON DELETE CASCADE,
