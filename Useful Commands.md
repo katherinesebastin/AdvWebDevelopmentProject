@@ -39,6 +39,13 @@ CREATE TABLE profiles (
   skills JSONB,
   FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
 );
+
+### Add new Colums
+ALTER TABLE profiles
+ADD COLUMN discoveries TEXT[] DEFAULT '{}',
+ADD COLUMN battles TEXT[] DEFAULT '{}',
+ADD COLUMN notes TEXT[] DEFAULT '{}';
+
 # Create Table: GM_view profiles
 CREATE TABLE gm_profiles (
   id SERIAL PRIMARY KEY,
