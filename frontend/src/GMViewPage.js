@@ -10,9 +10,9 @@ const GMViewPage = () => {
   const profilesPerPage = 3;
   const [gameLog, setGameLog] = useState({ discoveries: [], battles: [], notes: [] });
   const [expandedSections, setExpandedSections] = useState({ discoveries: false, battles: false, notes: false });
-  const [isEditing, setIsEditing] = useState(false); // Manage whether in edit mode
+  const [isEditing, setIsEditing] = useState(false);
+  const [newEntries, setNewEntries] = useState({ discoveries: "", battles: "", notes: "" });
 
-  // Fetch profiles and game log from API
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
@@ -56,7 +56,6 @@ const GMViewPage = () => {
     navigate('/');
   };
 
-  // Toggle the visibility of the sections (discoveries, battles, notes)
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
@@ -66,12 +65,12 @@ const GMViewPage = () => {
   };
 
   const handleAddItem = (section) => {
-    const newItem = prompt(`Enter a new ${section} item:`);
-    if (newItem) {
+    if (newEntries[section].trim()) {
       setGameLog((prevGameLog) => ({
         ...prevGameLog,
-        [section]: [...prevGameLog[section], newItem],
+        [section]: [...prevGameLog[section], newEntries[section].trim()],
       }));
+      setNewEntries((prev) => ({ ...prev, [section]: "" }));
     }
   };
 
@@ -83,27 +82,10 @@ const GMViewPage = () => {
     }));
   };
 
-  const handleUpdateItem = (section, index) => {
-    const updatedItem = prompt(`Edit the ${section} item:`, gameLog[section][index]);
-    if (updatedItem) {
-      const updatedItems = gameLog[section].map((item, i) =>
-        i === index ? updatedItem : item
-      );
-      setGameLog((prevGameLog) => ({
-        ...prevGameLog,
-        [section]: updatedItems,
-      }));
-    }
-  };
-
   return (
     <div className="gm-view-container">
       <div className="profile-carousel">
-        <button
-          className="nav-button"
-          onClick={handlePrev}
-          disabled={currentIndex === 0}
-        >
+        <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
           <FaChevronLeft />
         </button>
         <div className="profile-list">
@@ -113,11 +95,7 @@ const GMViewPage = () => {
             </div>
           ))}
         </div>
-        <button
-          className="nav-button"
-          onClick={handleNext}
-          disabled={currentIndex + profilesPerPage >= profiles.length}
-        >
+        <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
           <FaChevronRight />
         </button>
       </div>
@@ -136,26 +114,17 @@ const GMViewPage = () => {
                   {gameLog[section].map((item, index) => (
                     <li key={index}>
                       {isEditing ? (
-                        <div>
-                          <textarea
-                            value={item}
-                            onChange={(e) => {
-                              const updatedItem = e.target.value;
-                              const updatedItems = gameLog[section].map((existingItem, i) =>
-                                i === index ? updatedItem : existingItem
-                              );
-                              setGameLog((prevGameLog) => ({
-                                ...prevGameLog,
-                                [section]: updatedItems,
-                              }));
-                            }}
-                            rows="4"
-                            cols="50"
-                          />
-                          <button onClick={() => handleDeleteItem(section, index)}>
-                            <FaTrash /> Delete
-                          </button>
-                        </div>
+                        <textarea
+                          value={item}
+                          onChange={(e) => {
+                            const updatedItems = gameLog[section].map((existingItem, i) =>
+                              i === index ? e.target.value : existingItem
+                            );
+                            setGameLog((prevGameLog) => ({ ...prevGameLog, [section]: updatedItems }));
+                          }}
+                          rows="4"
+                          cols="50"
+                        />
                       ) : (
                         <div>
                           {item.split('\n').map((paragraph, i) => (
@@ -163,14 +132,22 @@ const GMViewPage = () => {
                           ))}
                         </div>
                       )}
+                      {isEditing && (
+                        <button onClick={() => handleDeleteItem(section, index)}>
+                          <FaTrash /> Delete
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
-                {isEditing && (
-                  <button onClick={() => handleAddItem(section)}>
-                    Add {section.slice(0, -1)}
-                  </button>
-                )}
+                <textarea
+                  value={newEntries[section]}
+                  onChange={(e) => setNewEntries((prev) => ({ ...prev, [section]: e.target.value }))}
+                  rows="4"
+                  cols="50"
+                  placeholder={`Enter new ${section.slice(0, -1)}`}
+                />
+                <button onClick={() => handleAddItem(section)}>Add {section.slice(0, -1)}</button>
               </div>
             )}
           </div>
