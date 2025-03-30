@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, FaChevronUp, FaChevronDown, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
-import PlayerViewPage from './PlayerViewPage';
 
 const GMViewPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [profiles, setProfiles] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedProfile, setSelectedProfile] = useState(null);
   const profilesPerPage = 3;
   const [gameLog, setGameLog] = useState({ discoveries: [], battles: [], notes: [] });
   const [expandedSections, setExpandedSections] = useState({ discoveries: false, battles: false, notes: false });
@@ -66,87 +64,128 @@ const GMViewPage = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleAddItem = (section) => {
+  const handleAddItem = async (section) => {
     if (newEntries[section].trim()) {
-      setGameLog((prevGameLog) => ({
-        ...prevGameLog,
-        [section]: [...prevGameLog[section], newEntries[section].trim()],
-      }));
+      const updatedGameLog = {
+        ...gameLog,
+        [section]: [...gameLog[section], newEntries[section].trim()],
+      };
+
+      setGameLog(updatedGameLog); // Update UI
+
+      // Send updated data to backend
+      try {
+        await fetch(`http://localhost:5001/campaigns/${id}/gamelog`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedGameLog),
+        });
+      } catch (error) {
+        console.error('Error updating game log:', error);
+      }
+
       setNewEntries((prev) => ({ ...prev, [section]: "" }));
     }
   };
 
-  const handleDeleteItem = (section, index) => {
+  const handleDeleteItem = async (section, index) => {
     const updatedItems = gameLog[section].filter((_, i) => i !== index);
-    setGameLog((prevGameLog) => ({
-      ...prevGameLog,
-      [section]: updatedItems,
-    }));
+    const updatedGameLog = { ...gameLog, [section]: updatedItems };
+
+    setGameLog(updatedGameLog); // Update UI
+
+    // Send updated data to backend
+    try {
+      await fetch(`http://localhost:5001/campaigns/${id}/gamelog`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedGameLog),
+      });
+    } catch (error) {
+      console.error('Error updating game log:', error);
+    }
+  };
+
+  const handleEditItem = async (section, index, newValue) => {
+    const updatedItems = gameLog[section].map((item, i) => (i === index ? newValue : item));
+    const updatedGameLog = { ...gameLog, [section]: updatedItems };
+
+    setGameLog(updatedGameLog); // Update UI
+
+    // Send updated data to backend
+    try {
+      await fetch(`http://localhost:5001/campaigns/${id}/gamelog`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedGameLog),
+      });
+    } catch (error) {
+      console.error('Error updating game log:', error);
+    }
   };
 
   return (
     <div className="gm-view-container">
-      {selectedProfile ? (
-        <>
-          <PlayerViewPage profile={selectedProfile} />
-          <button onClick={() => setSelectedProfile(null)} className="return-gm-view-button">
-            Return to GM View
-          </button>
-        </>
-      ) : (
-        <>
-          <div className="profile-carousel">
-            <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
-              <FaChevronLeft />
-            </button>
-            <div className="profile-list">
-              {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
-                <div key={profile.id} className="profile-card" onClick={() => setSelectedProfile(profile)}>
-                  <p>{profile.name}</p>
-                </div>
-              ))}
+      <div className="profile-carousel">
+        <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
+          <FaChevronLeft />
+        </button>
+        <div className="profile-list">
+          {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
+            <div key={profile.id} className="profile-card">
+              <p>{profile.name}</p>
             </div>
-            <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
-              <FaChevronRight />
-            </button>
-          </div>
+          ))}
+        </div>
+        <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
+          <FaChevronRight />
+        </button>
+      </div>
 
-          <div className="game-log">
-            <h2>Game Log</h2>
-            {['discoveries', 'battles', 'notes'].map((section) => (
-              <div key={section} className="game-log-section">
-                <h3 onClick={() => toggleSection(section)} style={{ cursor: 'pointer' }}>
-                  {section.charAt(0).toUpperCase() + section.slice(1)}
-                  {expandedSections[section] ? <FaChevronUp /> : <FaChevronDown />}
-                </h3>
-                {expandedSections[section] && (
-                  <div>
-                    <ul>
-                      {gameLog[section].map((item, index) => (
-                        <li key={index}>
-                          {isEditing ? (
-                            <textarea
-                              value={item}
-                              onChange={(e) => {
-                                const updatedItems = gameLog[section].map((existingItem, i) =>
-                                  i === index ? e.target.value : existingItem
-                                );
-                                setGameLog((prevGameLog) => ({ ...prevGameLog, [section]: updatedItems }));
-                              }}
-                              rows="4"
-                              cols="50"
-                            />
-                          ) : (
-                            <p>{item}</p>
-                          )}
-                          {isEditing && (
-                            <button onClick={() => handleDeleteItem(section, index)}>
-                              <FaTrash /> Delete
-                            </button>
-                          )}
-                        </li>
-                      ))}
-                    </ul>
+      <div className="game-log">
+        <h2>Game Log</h2>
+        {['discoveries', 'battles', 'notes'].map((section) => (
+          <div key={section} className="game-log-section">
+            <h3 onClick={() => toggleSection(section)} style={{ cursor: 'pointer' }}>
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+              {expandedSections[section] ? <FaChevronUp /> : <FaChevronDown />}
+            </h3>
+            {expandedSections[section] && (
+              <div>
+                <ul>
+                  {gameLog[section].map((item, index) => (
+                    <li key={index}>
+                      {isEditing ? (
+                        <textarea
+                          value={item}
+                          onChange={(e) => handleEditItem(section, index, e.target.value)}
+                          rows="4"
+                          cols="50"
+                        />
+                      ) : (
+                        <div>
+                          {item.split('\n').map((paragraph, i) => (
+                            <p key={i}>{paragraph}</p>
+                          ))}
+                        </div>
+                      )}
+                      {isEditing && (
+                        <button onClick={() => handleDeleteItem(section, index)}>
+                          <FaTrash /> Delete
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+
+                {isEditing && (
+                  <>
                     <textarea
                       value={newEntries[section]}
                       onChange={(e) => setNewEntries((prev) => ({ ...prev, [section]: e.target.value }))}
@@ -155,15 +194,37 @@ const GMViewPage = () => {
                       placeholder={`Enter new ${section.slice(0, -1)}`}
                     />
                     <button onClick={() => handleAddItem(section)}>Add {section.slice(0, -1)}</button>
-                  </div>
+                  </>
                 )}
               </div>
-            ))}
+            )}
           </div>
-        </>
-      )}
+        ))}
+      </div>
+
+      <div className="buttons">
+        {isEditing ? (
+          <button onClick={toggleEditMode} className="exit-edit-button">
+            <FaTimes /> Exit Edit Mode
+          </button>
+        ) : (
+          <button onClick={toggleEditMode} className="edit-button">
+            <FaEdit /> Edit Game Log
+          </button>
+        )}
+      </div>
+
+      <button onClick={handleBackToCampaigns} className="back-to-campaigns-button bottom-left">
+        Back to Campaigns
+      </button>
     </div>
   );
 };
 
 export default GMViewPage;
+
+
+
+
+
+
