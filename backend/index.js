@@ -34,7 +34,7 @@ app.post('/campaigns', async (req, res) => {
     // Insert the GM profile with default values
     const gmProfileResult = await client.query(
       'INSERT INTO gm_profiles (campaign_id, discoveries, battles, notes) VALUES ($1, $2, $3, $4) RETURNING *',
-      [campaign.id, [], [], []]  // Empty arrays for discoveries, battles, and notes
+      [campaign.id, '{}', '{}', '{}']  // PostgreSQL array syntax
     );
 
     const gmProfile = gmProfileResult.rows[0];
@@ -161,27 +161,6 @@ app.get('/campaigns/:id/profiles', async (req, res) => {
   }
 });
 
-// Get a specific profile within a campaign
-app.get('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
-  const { campaignId, profileName } = req.params;
-
-  try {
-    const result = await pool.query(
-      'SELECT * FROM profiles WHERE campaign_id = $1 AND name = $2',
-      [campaignId, profileName]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Profile not found' });
-    }
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error('Error fetching profile:', err);
-    res.status(500).json({ message: 'Error fetching profile', error: err });
-  }
-});
-
 // Create a new profile for a specific campaign
 app.post('/campaigns/:id/profiles', async (req, res) => {
   const { id } = req.params;
@@ -211,6 +190,27 @@ app.delete('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
 });
 
 // Game Logs Endpoints
+// Get a specific profile within a campaign
+app.get('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
+  const { campaignId, profileName } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM profiles WHERE campaign_id = $1 AND name = $2',
+      [campaignId, profileName]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error fetching profile:', err);
+    res.status(500).json({ message: 'Error fetching profile', error: err });
+  }
+});
+
 // Get the GM profile and game log details for a specific campaign
 app.get('/campaigns/:id/gamelog', async (req, res) => {
   const { id } = req.params;
@@ -236,20 +236,85 @@ app.get('/campaigns/:id/gamelog', async (req, res) => {
   }
 });
 
-app.post('/gamelogs', async (req, res) => {
-  const { profile_id, entry } = req.body;
-  const result = await pool.query(
-    'INSERT INTO gamelogs (profile_id, entry) VALUES ($1, $2) RETURNING *',
-    [profile_id, entry]
-  );
-  res.json(result.rows[0]);
+app.patch('/campaigns/:id/gamelog', async (req, res) => {
+  const { id } = req.params;
+  const { discoveries, battles, notes } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE gm_profiles 
+       SET discoveries = $1, 
+           battles = $2, 
+           notes = $3 
+       WHERE campaign_id = $4 
+       RETURNING *`,
+      [discoveries, battles, notes, id]  // No need to convert to string
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'GM profile not found for this campaign' });
+    }
+
+    res.json(result.rows[0]);  // Return updated GM profile
+  } catch (err) {
+    console.error('Error updating game log:', err);
+    res.status(500).json({ message: 'Error updating game log', error: err });
+  }
 });
+// Get a specific profile within a campaign from the profiles table
+app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+  const { campaignId, profileId } = req.params;
+
+  try {
+    const result = await pool.query(
+      'SELECT * FROM profiles WHERE campaign_id = $1 AND id = $2',
+      [campaignId, profileId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(result.rows[0]);  // Return the profile
+  } catch (err) {
+    console.error('Error fetching profile:', err);
+    res.status(500).json({ message: 'Error fetching profile', error: err });
+  }
+});
+
 
 app.get('/gamelogs/:profile_id', async (req, res) => {
   const { profile_id } = req.params;
   const result = await pool.query('SELECT * FROM gamelogs WHERE profile_id = $1', [profile_id]);
   res.json(result.rows);
 });
+app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+  const { campaignId, profileId } = req.params;
+  const { name, stats, equipment, skills } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE profiles 
+       SET name = COALESCE($1, name), 
+           stats = COALESCE($2, stats), 
+           equipment = COALESCE($3, equipment), 
+           skills = COALESCE($4, skills) 
+       WHERE campaign_id = $5 AND id = $6 
+       RETURNING *`,
+      [name, stats, equipment, skills, campaignId, profileId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(result.rows[0]);  // Return updated profile
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    res.status(500).json({ message: 'Error updating profile', error: err });
+  }
+});
+
 
 // Start server
 app.listen(port, () => {
