@@ -19,3 +19,4 @@
 | 29.03.2025 | 0,5 | Phase 2 | Modifying Game Log, so it is being displayed the same way in GM and player view |
 | 29.03.2025 | 1 | Phase 2 | Allowing for name changes of profiles in campaign page, identifying isssue, that game log content isn't saved |
 | 29.03.2025 | 0,5 | Phase 2 | Displaying Player Profiles in GM view page |
+| 29.03.2025 | 0,5 | Phase 2 | Allowing Profile selection in GM view page |
