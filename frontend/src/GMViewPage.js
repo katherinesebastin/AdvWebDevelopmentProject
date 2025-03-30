@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, FaChevronUp, FaChevronDown, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
+import PlayerViewPage from './PlayerViewPage';
+
 
 const GMViewPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [profiles, setProfiles] = useState([]);
+  const [selectedProfileId, setSelectedProfileId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const profilesPerPage = 3;
   const [gameLog, setGameLog] = useState({ discoveries: [], battles: [], notes: [] });
@@ -16,7 +19,7 @@ const GMViewPage = () => {
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
-        const url = `http://localhost:5001/campaigns/${id}/profiles`;
+        const url = `http://localhost:5001/campaigns/${id}/profiles`;  // Ensure this is correct
         const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
         const data = await response.json();
         setProfiles(data.profiles);
@@ -39,6 +42,10 @@ const GMViewPage = () => {
     fetchProfiles();
     fetchGameLog();
   }, [id]);
+
+  const handleProfileClick = (profileId) => {
+    setSelectedProfileId(profileId); // Set the selected profile ID when a profile name is clicked
+  };
 
   const handleNext = () => {
     if (currentIndex + profilesPerPage < profiles.length) {
@@ -132,21 +139,36 @@ const GMViewPage = () => {
 
   return (
     <div className="gm-view-container">
-      <div className="profile-carousel">
-        <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
-          <FaChevronLeft />
-        </button>
-        <div className="profile-list">
-          {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
-            <div key={profile.id} className="profile-card">
-              <p>{profile.name}</p>
-            </div>
-          ))}
+      {/* Only show the profile carousel if no profile is selected */}
+      {!selectedProfileId && (
+        <div className="profile-carousel">
+          <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
+            <FaChevronLeft />
+          </button>
+          <div className="profile-list">
+            {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
+              <div key={profile.id} className="profile-card" onClick={() => handleProfileClick(profile.id)}>
+                <p>{profile.name}</p>
+              </div>
+            ))}
+          </div>
+          <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
+            <FaChevronRight />
+          </button>
         </div>
-        <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
-          <FaChevronRight />
-        </button>
-      </div>
+      )}
+
+      {/* Render PlayerViewPage when a profile is selected */}
+      {selectedProfileId && (
+        <div>
+          <div>
+            <PlayerViewPage campaignId={id} profileId={selectedProfileId} />
+            <button onClick={() => setSelectedProfileId(null)} className="return-to-gm-button">
+              Return to GM View
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="game-log">
         <h2>Game Log</h2>

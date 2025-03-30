@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronUp, FaChevronDown, FaEdit, FaTimes } from 'react-icons/fa';
 
 const PlayerViewPage = () => {
-  const { id } = useParams();
+ // const { id } = useParams();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [gameLog, setGameLog] = useState({ discoveries: [], battles: [], notes: [] });
@@ -14,32 +14,33 @@ const PlayerViewPage = () => {
   const [newBattle, setNewBattle] = useState('');
   const [newDiscovery, setNewDiscovery] = useState('');
 
-  const { campaignId, profileId } = useParams();
+  const { campaignId, profileId } = useParams(); // Ensure these are extracted properly
 
-  useEffect(() => {
-    const fetchPlayerData = async () => {
-      try {
-        const profileResponse = await fetch(`http://localhost:5001/campaigns/${campaignId}/profiles/${profileId}`);
-        if (!profileResponse.ok) throw new Error('Failed to fetch profile');
-        const profileData = await profileResponse.json();
-  
-        setProfile(profileData);
-        setGameLog({
-          discoveries: profileData.discoveries || [],
-          battles: profileData.battles || [],
-          notes: profileData.notes || []
-        });
-      } catch (error) {
-        console.error('Error fetching player profile or game log:', error);
-      }
-    };
-  
-    if (campaignId && profileId) {
-      fetchPlayerData();
-    } else {
-      console.error("Campaign ID or Profile ID is missing");
+useEffect(() => {
+  const fetchPlayerData = async () => {
+    try {
+      const profileResponse = await fetch(`http://localhost:5001/campaigns/${campaignId}/profiles/${profileId}`);
+      if (!profileResponse.ok) throw new Error('Failed to fetch profile');
+      const profileData = await profileResponse.json();
+
+      setProfile(profileData);
+      setGameLog({
+        discoveries: profileData.discoveries || [],
+        battles: profileData.battles || [],
+        notes: profileData.notes || [],
+      });
+    } catch (error) {
+      console.error('Error fetching player profile or game log:', error);
     }
-  }, [campaignId, profileId]);  // Ensure the hook runs when both campaignId and profileId are defined
+  };
+
+  if (campaignId && profileId) {  // Ensure valid IDs before fetching
+    fetchPlayerData();
+  } else {
+    console.error("Campaign ID or Profile ID is missing");
+  }
+}, [campaignId, profileId]); // Update dependencies
+
   
 
   const toggleSection = (section) => {
@@ -84,7 +85,7 @@ const PlayerViewPage = () => {
 
   const saveGameLog = async (updatedGameLog) => {
     try {
-      await fetch(`http://localhost:5001/campaigns/${id}/gamelog`, {
+      await fetch(`http://localhost:5001/campaigns/${campaignId}/profiles/${profileId}/gamelog`, { 
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedGameLog),
@@ -93,6 +94,7 @@ const PlayerViewPage = () => {
       console.error('Error saving game log:', error);
     }
   };
+  
 
   const handleBackToCampaigns = () => {
     navigate('/');
