@@ -183,17 +183,30 @@ app.get('/campaigns/:id/profiles', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const profilesResult = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
+    const gmProfileResult = await pool.query(
+      'SELECT id FROM gm_profiles WHERE campaign_id = $1',
+      [id]
+    );
 
-    // Disable caching for this response
+    const profilesResult = await pool.query(
+      'SELECT id, name FROM profiles WHERE campaign_id = $1',
+      [id]
+    );
+
+    console.log('GM Profile:', gmProfileResult.rows);
+    console.log('Player Profiles:', profilesResult.rows);
+
     disableCacheHeaders(res);
-
-    res.json(profilesResult.rows);
+    res.json({
+      gm_profile_id: gmProfileResult.rows[0]?.id || null,
+      profiles: profilesResult.rows
+    });
   } catch (err) {
     console.error('Error fetching profiles:', err);
     res.status(500).json({ message: 'Error fetching profiles', error: err });
   }
 });
+
 
 // Get the GM profile and game log details for a specific campaign
 app.get('/campaigns/:id/gamelog', async (req, res) => {

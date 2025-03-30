@@ -19,7 +19,7 @@ const GMViewPage = () => {
         const url = `http://localhost:5001/campaigns/${id}/profiles`;
         const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
         const data = await response.json();
-        setProfiles(data);
+        setProfiles(data.profiles);
       } catch (error) {
         console.error('Error fetching profiles:', error);
       }
