@@ -83,7 +83,6 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
         const updatedGameLog = { ...gameLog, [section]: updatedItems };
 
         setGameLog(updatedGameLog);
-        await saveGameLog(updatedGameLog);
     };
 
     const saveGameLog = async (updatedGameLog) => {
