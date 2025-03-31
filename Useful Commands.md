@@ -46,7 +46,7 @@ ADD COLUMN discoveries TEXT[] DEFAULT '{}',
 ADD COLUMN battles TEXT[] DEFAULT '{}',
 ADD COLUMN notes TEXT[] DEFAULT '{}';  
 
-## Remove the old columns that are no longer needed
+### Remove the old columns that are no longer needed
 ALTER TABLE profiles
 DROP COLUMN name,
 DROP COLUMN stats,
