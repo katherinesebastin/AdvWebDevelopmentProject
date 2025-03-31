@@ -96,6 +96,14 @@ ADD COLUMN conditions JSONB,  -- Conditions (status effects like poisoned, stunn
 ADD COLUMN xp INTEGER;  -- Experience Points
 
 
+ALTER TABLE profiles
+DROP COLUMN background,
+DROP COLUMN feats,
+DROP COLUMN conditions,
+DROP COLUMN xp;
+
+
+
 ## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
   id SERIAL PRIMARY KEY,
