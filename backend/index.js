@@ -193,9 +193,6 @@ app.get('/campaigns/:id/profiles', async (req, res) => {
       [id]
     );
 
-    console.log('GM Profile:', gmProfileResult.rows);
-    console.log('Player Profiles:', profilesResult.rows);
-
     disableCacheHeaders(res);
     res.json({
       gm_profile_id: gmProfileResult.rows[0]?.id || null,
@@ -260,27 +257,6 @@ app.patch('/campaigns/:id/gamelog', async (req, res) => {
 });
 
 // Player Endpoints
-// Get a specific profile within a campaign
-app.get('/campaigns/:campaignId/profiles/:profileName', async (req, res) => {
-  const { campaignId, profileName } = req.params;
-
-  try {
-    const result = await pool.query(
-      'SELECT * FROM profiles WHERE campaign_id = $1 AND name = $2',
-      [campaignId, profileName]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: 'Profile not found' });
-    }
-
-    res.json(result.rows[0]);
-  } catch (err) {
-    console.error('Error fetching profile:', err);
-    res.status(500).json({ message: 'Error fetching profile', error: err });
-  }
-});
-
 // Get a specific profile within a campaign from the profiles table
 app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   const { campaignId, profileId } = req.params;
@@ -326,6 +302,31 @@ app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   } catch (err) {
     console.error('Error updating profile:', err);
     res.status(500).json({ message: 'Error updating profile', error: err });
+  }
+});
+app.patch('/campaigns/:campaignId/profiles/:profileId/gamelog', async (req, res) => {
+  const { campaignId, profileId } = req.params;
+  const { discoveries, battles, notes } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE profiles 
+       SET discoveries = COALESCE($1, discoveries), 
+           battles = COALESCE($2, battles), 
+           notes = COALESCE($3, notes) 
+       WHERE campaign_id = $4 AND id = $5 
+       RETURNING *`,
+      [discoveries, battles, notes, campaignId, profileId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(result.rows[0]);  // Return updated profile
+  } catch (err) {
+    console.error('Error updating game log:', err);
+    res.status(500).json({ message: 'Error updating game log', error: err });
   }
 });
 

@@ -161,12 +161,10 @@ const GMViewPage = () => {
       {/* Render PlayerViewPage when a profile is selected */}
       {selectedProfileId && (
         <div>
-          <div>
-            <PlayerViewPage campaignId={id} profileId={selectedProfileId} />
-            <button onClick={() => setSelectedProfileId(null)} className="return-to-gm-button">
-              Return to GM View
-            </button>
-          </div>
+          <PlayerViewPage campaignId={id} profileId={selectedProfileId} />
+          <button onClick={() => setSelectedProfileId(null)} className="return-to-gm-button">
+            Return to GM View
+          </button>
         </div>
       )}
 

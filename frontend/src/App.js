@@ -5,9 +5,6 @@ import ProfilePage from './ProfilePage';
 import GMViewPage from './GMViewPage';  // Import the new GM view page
 import PlayerViewPage from './PlayerViewPage';  // Import the new page
 
-// In your Routes component
-<Route path="/player/:id/:profileId" element={<PlayerViewPage />} />
-
 
 const App = () => {
   const [campaigns, setCampaigns] = useState([]);
@@ -163,7 +160,7 @@ const App = () => {
         {/* Campaign Detail Page */}
         <Route path="/campaigns/:id" element={<ProfilePage />} />
         <Route path="/gm/:id" element={<GMViewPage />} />  {/* GM view Page */}
-        <Route path="/player/:id/:profileId" element={<PlayerViewPage />} />
+        <Route path="/player/:campaignId/:profileId" element={<PlayerViewPage />} />
       </Routes>
     </div>
   );
