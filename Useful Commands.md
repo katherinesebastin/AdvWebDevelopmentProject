@@ -2,32 +2,32 @@
 git status // show status  
 git checkout branchname // change branch  
 ## Pull from Github
-git pull origin Code
+git pull origin Code  
 ## Push to Github
-git add .
-git commit -m "commit message"
-git push origin Code
+git add .  
+git commit -m "commit message"  
+git push origin Code  
 
 ## Delete command when pulling from Github
-git checkout -- frontend/node_modules/.cache/
+git checkout -- frontend/node_modules/.cache/  
 
 ## Run Code
 ## Start Backend
-npm run dev
+npm run dev  
 ## Start Frontend
-npm start
+npm start  
 
 # Database
 ## Log into Postgres (Password: 1234)
-psql -h localhost -U postgres -d digital_score_stat_keeper
+psql -h localhost -U postgres -d digital_score_stat_keeper  
 ## List databases
-\l
+\l  
 ## List tables in database
-\dt
+\dt  
 ## Show table structure
-\d table_name
+\d table_name  
 ## Exit terminal
-\q
+\q  
 
 ## Create table: profiles
 CREATE TABLE profiles (
@@ -38,23 +38,20 @@ CREATE TABLE profiles (
   equipment JSONB,
   skills JSONB,
   FOREIGN KEY (campaign_id) REFERENCES campaigns(id) ON DELETE CASCADE
-);
+);  
 
 ### Add new columns
 ALTER TABLE profiles
 ADD COLUMN discoveries TEXT[] DEFAULT '{}',
 ADD COLUMN battles TEXT[] DEFAULT '{}',
-ADD COLUMN notes TEXT[] DEFAULT '{}';
+ADD COLUMN notes TEXT[] DEFAULT '{}';  
 
-
--- Remove the old columns that are no longer needed
+## Remove the old columns that are no longer needed
 ALTER TABLE profiles
 DROP COLUMN name,
 DROP COLUMN stats,
 DROP COLUMN equipment,
-DROP COLUMN skills;
-
-
+DROP COLUMN skills;  
 
 ALTER TABLE profiles
 ADD COLUMN player_name VARCHAR(255),  -- Add player name
@@ -93,18 +90,16 @@ ADD COLUMN skills JSONB,  -- Add Skills as JSONB to store details of skills with
 ADD COLUMN background TEXT,  -- Background/Character backstory (optional, can store as text)
 ADD COLUMN feats JSONB,  -- Feats or talents (can store as JSONB)
 ADD COLUMN conditions JSONB,  -- Conditions (status effects like poisoned, stunned, etc.)
-ADD COLUMN xp INTEGER;  -- Experience Points
-
+ADD COLUMN xp INTEGER;  -- Experience Points  
 
 ALTER TABLE profiles
 DROP COLUMN background,
 DROP COLUMN feats,
 DROP COLUMN conditions,
-DROP COLUMN xp;
+DROP COLUMN xp;  
 
 ALTER TABLE profiles
-RENAME COLUMN "player_name" TO "name";
-
+RENAME COLUMN "player_name" TO "name";  
 
 ## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
@@ -113,5 +108,4 @@ CREATE TABLE gm_profiles (
   discoveries TEXT[] DEFAULT '{}',  -- Array to store Discoveries
   battles TEXT[] DEFAULT '{}',      -- Array to store Battles
   notes TEXT[] DEFAULT '{}'        -- Array to store Notes
-);
-
+);  
