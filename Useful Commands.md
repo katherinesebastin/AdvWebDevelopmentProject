@@ -101,6 +101,42 @@ DROP COLUMN xp;
 ALTER TABLE profiles
 RENAME COLUMN "player_name" TO "name";  
 
+
+ALTER TABLE profiles
+  ALTER COLUMN class SET DEFAULT '',
+  ALTER COLUMN race SET DEFAULT '',
+  ALTER COLUMN level SET DEFAULT 1,
+  ALTER COLUMN strength SET DEFAULT 0,
+  ALTER COLUMN dexterity SET DEFAULT 0,
+  ALTER COLUMN constitution SET DEFAULT 0,
+  ALTER COLUMN intelligence SET DEFAULT 0,
+  ALTER COLUMN wisdom SET DEFAULT 0,
+  ALTER COLUMN charisma SET DEFAULT 0,
+  ALTER COLUMN strength_modifier SET DEFAULT 0,
+  ALTER COLUMN dexterity_modifier SET DEFAULT 0,
+  ALTER COLUMN constitution_modifier SET DEFAULT 0,
+  ALTER COLUMN intelligence_modifier SET DEFAULT 0,
+  ALTER COLUMN wisdom_modifier SET DEFAULT 0,
+  ALTER COLUMN charisma_modifier SET DEFAULT 0,
+  ALTER COLUMN ac SET DEFAULT 10,
+  ALTER COLUMN initiative_modifier SET DEFAULT 0,
+  ALTER COLUMN max_hp SET DEFAULT 10,
+  ALTER COLUMN current_hp SET DEFAULT 10,
+  ALTER COLUMN temporary_hp SET DEFAULT 0,
+  ALTER COLUMN hit_dice SET DEFAULT '',
+  ALTER COLUMN attack_rolls SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN spellcasting SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN proficiencies SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN languages SET DEFAULT '{}'::text[],
+  ALTER COLUMN equipment SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN weapons SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN armor SET DEFAULT '',
+  ALTER COLUMN adventuring_gear SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN money SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN magic_items SET DEFAULT '{}'::jsonb,
+  ALTER COLUMN skills SET DEFAULT '{}'::jsonb;
+
+
 ## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
   id SERIAL PRIMARY KEY,
