@@ -21,3 +21,4 @@
 | 30.03.2025 | 0,5 | Phase 2 | Displaying Player Profiles in GM view page |
 | 30.03.2025 | 0,5 | Phase 2 | Allowing Profile selection in GM view page |
 | 31.03.2025 | 0,5 | Phase 2 | Fixing backend for player Game Log and allowing for rendering of PlayerViewPage in GM view |
+| 31.03.2025 | 2 | Phase 2 | Modifying profile databas to store stats etc. and adapting backend routes |
