@@ -120,8 +120,8 @@ app.get('/campaigns/:id', async (req, res) => {
       return res.status(404).json({ message: 'Campaign not found' });
     }
 
-    const profilesResult = await pool.query('SELECT * FROM profiles WHERE campaign_id = $1', [id]);
-    const gmResult = await pool.query('SELECT * FROM gm_profiles WHERE campaign_id = $1', [id]);
+    const profilesResult = await pool.query('SELECT name, campaign_id, id FROM profiles WHERE campaign_id = $1', [id]);
+    const gmResult = await pool.query('SELECT id, campaign_id FROM gm_profiles WHERE campaign_id = $1', [id]);
 
     res.json({
       campaign: result.rows[0],

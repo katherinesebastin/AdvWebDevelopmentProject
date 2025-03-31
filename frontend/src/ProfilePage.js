@@ -20,9 +20,6 @@ const PlayerProfilePage = () => {
     axios.get(`http://localhost:5001/campaigns/${id}`)
       .then(response => {
         const { campaign, profiles, gm_profile } = response.data;
-        console.log('Campaign:', campaign);
-        console.log('Profiles:', profiles);
-        console.log('GM Profile:', gm_profile);
 
         // Set the state
         setCampaign(campaign);  // Set the campaign
@@ -46,7 +43,6 @@ const PlayerProfilePage = () => {
 
   // Function to add a new profile
   const addProfile = async () => {
-    console.log('Sending profile with data:', { name: newProfileName, campaign_id: id });
     try {
       // Send only the name field from frontend, no need to include stats, equipment, or skills
       const response = await axios.post(`http://localhost:5001/campaigns/${id}/profiles`, {
