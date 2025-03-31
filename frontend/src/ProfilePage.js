@@ -46,14 +46,19 @@ const PlayerProfilePage = () => {
 
   // Function to add a new profile
   const addProfile = async () => {
+    console.log('Sending profile with data:', { name: newProfileName, campaign_id: id });
     try {
-      const response = await axios.post(`http://localhost:5001/campaigns/${id}/profiles`, { name: newProfileName });
-      setProfiles([...profiles, response.data]);
+      // Send only the name field from frontend, no need to include stats, equipment, or skills
+      const response = await axios.post(`http://localhost:5001/campaigns/${id}/profiles`, {
+        name: newProfileName,  // Only send the profile name
+
+      });
+      setProfiles([...profiles, response.data]);  // Update the state with the new profile
       setNewProfileName('');  // Reset the input field after adding the profile
     } catch (error) {
       console.error('Error adding profile:', error);
     }
-  };
+  }; 
 
   // Function to delete a profile (ensure GM profile is not deleted)
   const deleteProfile = async (profileId) => {

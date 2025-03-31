@@ -151,16 +151,46 @@ const disableCacheHeaders = (res) => {
 // Create a new profile for a specific campaign
 app.post('/campaigns/:id/profiles', async (req, res) => {
   const { id } = req.params;
-  const { name, stats, equipment, skills } = req.body;
+  const { name } = req.body;
+
+  try {
+    // Insert the profile, only needing campaign_id and name
+    const result = await pool.query(
+      'INSERT INTO profiles (' +
+      'campaign_id, name) ' +  // Only campaign_id and name
+      'VALUES ($1, $2) ' +  // Only the two values to insert
+      'RETURNING *',  // Return the created profile
+      [id, name]  // Values for campaign_id and name
+    );
+
+    res.json(result.rows[0]);  // Return the created profile
+  } catch (err) {
+    console.error('Error during database insert:', err);  // Log the error for debugging
+    res.status(500).json({ message: 'Error creating profile', error: err.message });
+  }
+});
+
+app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+  const { campaignId, profileId } = req.params;
+  const { name } = req.body;  // Just name for this case
 
   try {
     const result = await pool.query(
-      'INSERT INTO profiles (campaign_id, name, stats, equipment, skills) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [id, name, stats, equipment, skills]
+      `UPDATE profiles 
+       SET name = COALESCE($1, name)
+       WHERE campaign_id = $2 AND id = $3
+       RETURNING *`,
+      [name, campaignId, profileId]
     );
-    res.json(result.rows[0]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.json(result.rows[0]);  // Return updated profile
   } catch (err) {
-    res.status(500).json({ message: 'Error creating profile', error: err });
+    console.error('Error updating profile:', err);
+    res.status(500).json({ message: 'Error updating profile', error: err });
   }
 });
 
@@ -278,7 +308,7 @@ app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   }
 });
 
-app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+/*app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   const { campaignId, profileId } = req.params;
   const { name, stats, equipment, skills } = req.body;
 
@@ -303,7 +333,8 @@ app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
     console.error('Error updating profile:', err);
     res.status(500).json({ message: 'Error updating profile', error: err });
   }
-});
+});*/
+
 app.patch('/campaigns/:campaignId/profiles/:profileId/gamelog', async (req, res) => {
   const { campaignId, profileId } = req.params;
   const { discoveries, battles, notes } = req.body;

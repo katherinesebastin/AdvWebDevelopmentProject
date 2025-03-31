@@ -104,7 +104,25 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
 
     return (
         <div className="player-view-container">
-            <h1>{profile ? `Showing Player View for ${profile.name}` : 'Loading...'}'s Game Log</h1>
+            <h1>{profile ? `Showing Player View for ${profile.player_name}` : 'Loading...'}'s Game Log</h1>
+
+            {/* New section to display character information */}
+            {profile && (
+                <div className="player-info">
+                    <p><strong>Class:</strong> {profile.class}</p>
+                    <p><strong>Race:</strong> {profile.race}</p>
+                    <p><strong>Level:</strong> {profile.level}</p>
+                    <p><strong>Strength:</strong> {profile.strength}</p>
+                    <p><strong>Dexterity:</strong> {profile.dexterity}</p>
+                    <p><strong>Constitution:</strong> {profile.constitution}</p>
+                    <p><strong>Intelligence:</strong> {profile.intelligence}</p>
+                    <p><strong>Wisdom:</strong> {profile.wisdom}</p>
+                    <p><strong>Charisma:</strong> {profile.charisma}</p>
+                    <p><strong>Armor Class:</strong> {profile.ac}</p>
+                    <p><strong>Initiative Modifier:</strong> {profile.initiative_modifier}</p>
+                    <p><strong>HP:</strong> {profile.current_hp}/{profile.max_hp}</p>
+                </div>
+            )}
             <div className="game-log">
                 <h2>Game Log</h2>
                 {['discoveries', 'battles', 'notes'].map((section) => (
