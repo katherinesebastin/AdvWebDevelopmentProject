@@ -214,20 +214,16 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 ### Information Architecture
 
 #### 1. Hierarchical Structure
-1.	**Dashboard (Home Screen):**  
-- Overview of active game session  
+1.	**Dashboard (Home Screen):**    
 - Quick access to Player Profiles, Game Logs, and Inventory  
-- Recent Game Activity
 
 2.	**Player Profile:**  
 - Character Stats (HP, Skills, Abilities, Equipment)
-- Edit Stats  
-- Activity Log (updates on stats changes)  
+- Edit Stats    
 
 3.	**Game Log:**  
 - Game Log Entries  
-- Add new notes (visible to GM or all players)  
-- Log History with timestamps  
+- Add new notes (visible to GM or all players)   
 
 #### 2. Information Flow & Relationships
 1.	**Player Profile Creation:**  
@@ -240,7 +236,6 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 
 3.	**Game Log Interaction:**  
 - Players and GMs can add notes to the Game Log.  
-- Notes are timestamped and logged in a dedicated section.  
 
 #### 3. User Permissions and Access Control
 1.	**Game Master (GM):**  
@@ -251,7 +246,6 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 2.	**Player:**  
 - Can view and edit their own Player Profile.  
 - Can view their Game Log.  
-- Cannot override stats or change other players' profiles.  
 
 ### Technical Design
 
@@ -268,18 +262,9 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 **API:**  
 1.	RESTful API for client-server communication. The API will allow the frontend to:  
 - Create and update profiles  
-- Add and view game logs  
+- Add and view game logs      
 
-#### 2. Security Considerations
-- Authorization: Ensure role-based access control (RBAC) where only the GM can override stats or change game settings.  
-- Data Validation: Sanitize and validate all input data to avoid malicious attacks like SQL injection or XSS.  
-
-#### 3. Scalability and Performance Considerations
-- Database Optimization: Use indexes in PostgreSQL for quick access to frequently queried data (e.g., player profiles, game logs).  
-- Caching: Use Redis to cache frequently requested data (e.g., player profiles) to reduce database load.  
-- Load Balancing: Implement horizontal scaling for the backend API to handle a large number of concurrent users.  
-
-#### 4. Testing Strategy
+#### 2. Testing Strategy
 - Unit Testing: Use Jest for unit testing the backend logic (game log creation, stat updates).
 - End-to-End (E2E) Testing: Use Cypress for testing the user interface and flow, ensuring that profile creation, stat updates, and sharing functions work correctly.  
 - Load Testing: Use tools like Artillery or JMeter to simulate multiple users interacting with the game simultaneously.  
@@ -291,7 +276,7 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 #### 1. Project Scope
 The Digital Score & Stat Keeper is designed to help players and Game Masters (GMs) manage character stats, game logs, and player profiles for tabletop role-playing games (TTRPGs). The core features of the application include:  
 -	Player Profile Management (creation, editing, viewing)  
--	Game Log Updates (timestamped entries, visibility settings)  
+-	Game Log Updates (visibility settings)  
 -	Player Stats (tracking HP, skills, items)  
 -	GM Tools (ability to override player stats and manage game settings)  
 
@@ -368,19 +353,12 @@ Key risks identified and mitigation strategies:
 -	Testers: Simulated users (using tools like JMeter).  
 -	Method: Simulate multiple users accessing and updating profiles and game logs simultaneously.  
 -	Success Metrics: No performance degradation, response times within acceptable ranges.  
-
-**Security Testing:**  
--	Objective: Ensure the application is secure, with no vulnerabilities.  
--	Testers: Security specialists or penetration testers.  
--	Method: Conduct common security tests such as SQL injection, cross-site scripting (XSS), and data encryption checks.  
--	Success Metrics: No vulnerabilities or exploits found, user data remains secure.  
-
 ### 3. Test Scenarios
 **Scenario 1: Player Profile Creation and Editing**  
 -	Test Objective: Verify that a user can create a profile, edit it, and the changes are saved correctly.  
 -	Steps:  
 1.	User clicks "Create Profile".  
-2.	User inputs character details and saves.  
+2.	User inputs character name and saves.  
 3.	User later edits the profile and updates the stats.  
 4.	Verify changes are reflected in the profile.  
 -	Expected Outcome: The profile is created, and edits are saved successfully without errors.
@@ -388,18 +366,17 @@ Key risks identified and mitigation strategies:
 **Scenario 2: Game Log Updates**  
 -	Test Objective: Ensure that users can add and view game logs accurately.  
 -	Steps:  
-1.	User adds a new log entry.  
-2.	Log is timestamped and saved.  
-3.	Verify that the log is visible in the game log section.  
+1.	User adds a new log entry.   
+2.	Verify that the log is visible in the game log section.  
 -	Expected Outcome: Logs are correctly saved and displayed to all relevant users.  
 
 **Scenario 3: GM Overrides Player Stats**  
 -	Test Objective: Validate that the GM can override player stats and the changes are logged.  
 -	Steps:  
-1.	GM clicks "Override Stats" for a player.  
+1.	GM clicks on player profile.  
 2.	GM modifies stats (e.g., HP, skills).  
 3.	Verify the new stats are reflected and visible to the player.  
--	Expected Outcome: Stats are successfully overridden, and the action is logged.  
+-	Expected Outcome: Stats are successfully overridden.  
 
 ### 4. User Feedback and Iteration  
 After each round of testing, feedback will be collected. This feedback will guide further refinement of the tool. User satisfaction and usability scores will be tracked to identify pain points or areas of improvement.  
