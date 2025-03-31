@@ -102,6 +102,8 @@ DROP COLUMN feats,
 DROP COLUMN conditions,
 DROP COLUMN xp;
 
+ALTER TABLE profiles
+RENAME COLUMN "player_name" TO "name";
 
 
 ## Create table: gm_view profiles
