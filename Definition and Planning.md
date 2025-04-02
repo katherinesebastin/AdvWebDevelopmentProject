@@ -67,7 +67,7 @@ Needs:
 - A user-friendly interface that explains things step-by-step and provides clear guidance.  
 - Easy-to-edit character profiles with large text and organized sections.  
 - Tooltips or explanations for certain stats and features to help them learn as they play.  
-- Prompted updates to remind them when to update specifi c stats (e.g., HP after damage).  
+- Prompted updates to remind them when to update specific stats (e.g., HP after damage).  
 - Ready-made templates for character creation to streamline the learning process.    
 
 ### 4: Veteran Player Riley
@@ -120,12 +120,10 @@ Needs:
 
 ### 1: Create a Player Profile
 User: Any player (New Player Jamie, Player Sam, or Veteran Player Riley)  
-Trigger: User clicks the "Create Profile" button.  
-Process:  
-- A form appears asking for details like character name, health points (HP), skills, abilities, items, etc.  
-- The tool auto-generates default values for missing information where applicable (e.g., default HP or skill levels).  
-- The user can customize these values based on their character concept.  
-- Once the form is filled, the player clicks "Save," and the profile is stored in the system, ready for gameplay.  
+Trigger: User clicks the "Add New Profile" button.  
+Process:    
+- The tool auto-generates default values for information initially where applicable (e.g., default HP, skills, abilities, items etc.).   
+- Once the the player name is filled, the player clicks "Add New Profile," and the profile is stored in the system, ready for gameplay.  
 
 Outcome:  
 - The player’s character profile is saved and accessible at any time for updates or gameplay.  
@@ -133,9 +131,9 @@ Outcome:
 
 ### 2: Edit Player Stats
 User: Any player (Player Sam, New Player Jamie, or Veteran Player Riley)  
-Trigger: User clicks the "Edit Stats" button.  
+Trigger: User clicks the "Edit" button.  
 Process:  
-- The player clicks the "Edit Stats" button on their character profile.  
+- The player clicks the "Edit" button on their character profile.  
 - A form appears that allows them to modify key stats, including HP, equipment, skills, abilities, and inventory.  
 - The player adjusts values as needed (e.g., updating HP after a battle, adding new items, or changing the level of a skill).  
 - Once the edits are made, the player clicks "Save," and the changes are automatically logged in the game log.  
@@ -164,7 +162,7 @@ Trigger: User adds a note to the game log.
 Process:  
 - The user (either a player or GM) clicks the "Add Note" button in the game log section.  
 - A text field appears, allowing the user to enter a note about the game session (e.g., "Sam’s character gained a new skill," "Alex’s NPC gave a cryptic clue").  
-- The user submits the note, and it is automatically logged with a timestamp.  
+- The user submits the note, and it is automatically logged.  
 - The note is visible to all users who have access to the game log (players and/or the GM, depending on permissions).  
 
 Outcome:  
@@ -173,10 +171,10 @@ Outcome:
 
 ### 5: View Character Profiles
 User: Any player (Player Sam, Veteran Player Riley)  
-Trigger: User selects a character profile to view in multiplayer mode.  
+Trigger: User selects a character profile to view.  
 Process:  
-- The user navigates to the "Player Profiles" section.  
-- The user selects another player’s profile to view (if permissions allow).  
+- The user navigates to the "Profiles" section.  
+- The user selects another player’s profile to view.  
 - The system displays the profile with visible details such as HP, skills, and inventory, but without edit permissions (unless the user is the GM).  
 - The user can view any public notes or log entries associated with that character, but cannot modify the profile.  
 
@@ -187,27 +185,25 @@ Outcome:
 ## 3. UI Prototypes
 
 ### Prototype Objectives
-Before designing the Prototype we decided on specific objectives we wanted to achieve during the Prototype development
--	Define Key functionalities and interactions
--	Designing a rough outline of the web page design
--	Testing usability of intended features
+Before designing the prototype we decided on specific objectives we wanted to achieve during the prototype development  
+-	Define key functionalities and interactions  
+-	Designing a rough outline of the web page design  
+-	Testing usability of intended features  
   
 ### Prototype Development
-When designing the Prototype we started with sketching out the layout on paper and then implementing the Prototype in Figma to create an interactive prototype to test the interactions.
+When designing the prototype we started with sketching out the layout on paper and then implementing the prototype in Figma to create an interactive prototype to test the interactions.  
+In our design we want to include the following elements:  
+-	A home screen that allows the user to add, delete and create new Campaigns that contain Player Profiles  
+-	Clicking on a Campaign opens a dropdown menu that allows the user to select, add or delete a Character Profile  
+-	The Player Profiles contain information about the Characters stats, health and stamina as well as skills and equipment, another feature is the Game Log which can be used to note down information about the current Campaign  
+-	Players can modify the stats of their own Profiles and add their own entries into the Game Log  
+-	The Game Master Pages allows the Game Master to click on a Player Profile to modify the Profile or add Game Log entries specific to a Profile, additionally the Game Master can also add Game Log Entries in the GM view page that are then accessible to every player in their game logs  
 
-In our design we want to include the following elements:
--	A home screen that allows the user to add, delete and create new Campaigns that contain Player Profiles
--	Clicking on a Campaign opens a dropdown menu that allows the user to select, add or delete a Character Profile
--	The Player Profiles contain information about the Characters stats, health and stamina as well as skills and equipment, another feature is the Game Log which can be used to note down information about the current Campaign
--	Players can modify the stats of their own Profiles and add their own entries into the Game Log
--	The Game Master Pages allows the Game Master to click on a Player Profile to modify the Profile or add Game Log entries specific to a Profile, additionally the Game Master can also add Game Log Entries in the GM view page that are then accessible to every player in their game logs
+In our Figma Prototype we implemented some of the above mentioned features to test our general principle and idea. The core features seem to be working quite well and the layout seems to be clear to understand. However, navigation between the different pages could be improved. Some of the modify pages can’t be accessed and there is no fast way to return back to the GM view after modifying a player profile.  
+Based on this we plan on implementing a save changes button as well as a return to GM view after overriding the stats of a player profile  
 
-In our Figma Prototype we implemented some of the above mentioned features to test our general principle and idea. The core features seem to be working quite well and the layout seems to be clear to understand. However, navigation between the different pages could be improved. Some of the modify pages can’t be accessed and there is no fast way to return back to the GM view after modifying a player profile.
-Based on this we plan on implementing a save changes button as well as a return to GM view after overriding the stats of a player profile
-
-### Link to Figma Prototype:
-
-https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t=9NSaB4SpQb5XaSzs-1 
+#### Link to Figma Prototype: 
+https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t=9NSaB4SpQb5XaSzs-1  
 
 ## 4. Information Architecture and Technical Design
 
@@ -227,7 +223,7 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 
 #### 2. Information Flow & Relationships
 1.	**Player Profile Creation:**  
-- Create Profile Screen: New players enter basic details (name, HP, skills, items).  
+- Create Profile Screen: New players enter their name.  
 - Save Profile: Data is stored in the database, accessible through the user’s dashboard.  
 
 2.	**Updating Player Stats:**  
@@ -281,7 +277,7 @@ The Digital Score & Stat Keeper is designed to help players and Game Masters (GM
 -	GM Tools (ability to override player stats and manage game settings)  
 
 #### 2. Timeline and Phases
-The project will be developed over a period of  7 weeks, divided into 4 sprints. Each sprint will be 1.5 weeks long, with a 1-week buffer for final adjustments, bug fixes, and user testing. The following is a breakdown of key activities and deliverables:  
+The project will be developed over a period of 7 weeks, divided into 4 sprints. Each sprint will be 1.5 weeks long, with a 1-week buffer for final adjustments, bug fixes, and user testing. The following is a breakdown of key activities and deliverables:  
 
 **Phase 1: Planning & Design (Week 1 - Week 1.5)**  
 -	Requirements Gathering: Understand user needs through personas and use cases.  
@@ -307,7 +303,7 @@ The project will be developed over a period of  7 weeks, divided into 4 sprints.
 The project will involve regular meetings to review progress and discuss obstacles, either in person or via WhatsApp.  
 
 **Roles & Responsibilities (Shared by Two People):**  
--	Project Manager: Oversees project timelines, budget, and task allocation.  
+-	Project Manager: Oversees project timelines and task allocation.  
 -	Frontend Developer: Builds the user interface using React.  
 -	Backend Developer: Sets up the Node.js server and manages the database.  
 -	Designer: Designs UI/UX, wireframes, and prototypes.  
@@ -352,12 +348,13 @@ Key risks identified and mitigation strategies:
 -	Objective: Validate that the application works smoothly under load.  
 -	Testers: Simulated users (using tools like JMeter).  
 -	Method: Simulate multiple users accessing and updating profiles and game logs simultaneously.  
--	Success Metrics: No performance degradation, response times within acceptable ranges.  
+-	Success Metrics: No performance degradation, response times within acceptable ranges.
+
 ### 3. Test Scenarios
 **Scenario 1: Player Profile Creation and Editing**  
 -	Test Objective: Verify that a user can create a profile, edit it, and the changes are saved correctly.  
 -	Steps:  
-1.	User clicks "Create Profile".  
+1.	User clicks "Add New Profile".  
 2.	User inputs character name and saves.  
 3.	User later edits the profile and updates the stats.  
 4.	Verify changes are reflected in the profile.  
@@ -384,6 +381,6 @@ After each round of testing, feedback will be collected. This feedback will guid
 ### 5. Reporting and Documentation  
 A final User Testing Report will be generated that includes:  
 -	Test Results: Summary of test cases, results, and success metrics.  
--	Issues Identified: List of bugs, usability issues, and security vulnerabilities.  
+-	Issues Identified: List of bugs and usability issues.  
 -	Recommendations: Suggested changes based on feedback and test results.  
 -	Action Plan: Outline of next steps to address issues and optimize the product.  
