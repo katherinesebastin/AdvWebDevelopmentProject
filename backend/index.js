@@ -15,6 +15,7 @@ const pool = new Pool({
 app.use(cors());
 app.use(express.json());
 
+
 // Campaigns Endpoints --> Dashboard
 
 // Create a new campaign
@@ -288,6 +289,8 @@ app.patch('/campaigns/:id/gamelog', async (req, res) => {
 
 // Player Endpoints
 // Get a specific profile within a campaign from the profiles table
+
+//other path to avoid issues later on
 app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   const { campaignId, profileId } = req.params;
 
@@ -308,20 +311,35 @@ app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   }
 });
 
-/*app.patch('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
+app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) => {
   const { campaignId, profileId } = req.params;
-  const { name, stats, equipment, skills } = req.body;
+  const {
+    name, class: characterClass, race, level, strength, dexterity, constitution,
+    intelligence, wisdom, charisma, ac, initiative_modifier, current_hp, max_hp
+  } = req.body;
 
   try {
     const result = await pool.query(
       `UPDATE profiles 
-       SET name = COALESCE($1, name), 
-           stats = COALESCE($2, stats), 
-           equipment = COALESCE($3, equipment), 
-           skills = COALESCE($4, skills) 
-       WHERE campaign_id = $5 AND id = $6 
+       SET name = COALESCE($1, name),
+           class = COALESCE($2, class),
+           race = COALESCE($3, race),
+           level = COALESCE($4, level),
+           strength = COALESCE($5, strength),
+           dexterity = COALESCE($6, dexterity),
+           constitution = COALESCE($7, constitution),
+           intelligence = COALESCE($8, intelligence),
+           wisdom = COALESCE($9, wisdom),
+           charisma = COALESCE($10, charisma),
+           ac = COALESCE($11, ac),
+           initiative_modifier = COALESCE($12, initiative_modifier),
+           current_hp = COALESCE($13, current_hp),
+           max_hp = COALESCE($14, max_hp)
+       WHERE campaign_id = $15 AND id = $16 
        RETURNING *`,
-      [name, stats, equipment, skills, campaignId, profileId]
+      [name, characterClass, race, level, strength, dexterity, constitution,
+        intelligence, wisdom, charisma, ac, initiative_modifier, current_hp, max_hp,
+        campaignId, profileId]
     );
 
     if (result.rows.length === 0) {
@@ -333,7 +351,7 @@ app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
     console.error('Error updating profile:', err);
     res.status(500).json({ message: 'Error updating profile', error: err });
   }
-});*/
+});
 
 app.patch('/campaigns/:campaignId/profiles/:profileId/gamelog', async (req, res) => {
   const { campaignId, profileId } = req.params;

@@ -14,6 +14,8 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
     const [gameLog, setGameLog] = useState({ discoveries: [], battles: [], notes: [] });
     const [expandedSections, setExpandedSections] = useState({ discoveries: false, battles: false, notes: false });
     const [isEditing, setIsEditing] = useState(false);
+    const [isEditingProfile, setIsEditingProfile] = useState(false);
+    const [editedProfile, setEditedProfile] = useState(null);
 
     const [newNote, setNewNote] = useState('');
     const [newBattle, setNewBattle] = useState('');
@@ -83,6 +85,9 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
         const updatedGameLog = { ...gameLog, [section]: updatedItems };
 
         setGameLog(updatedGameLog);
+
+        // Save changes to the backend
+        await saveGameLog(updatedGameLog);
     };
 
     const saveGameLog = async (updatedGameLog) => {
@@ -107,22 +112,78 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
             <h1>{profile ? `Showing Player View for ${profile.player_name}` : 'Loading...'}'s Game Log</h1>
 
             {/* New section to display character information */}
+            {/* New section to display character information */}
             {profile && (
                 <div className="player-info">
-                    <p><strong>Class:</strong> {profile.class}</p>
-                    <p><strong>Race:</strong> {profile.race}</p>
-                    <p><strong>Level:</strong> {profile.level}</p>
-                    <p><strong>Strength:</strong> {profile.strength}</p>
-                    <p><strong>Dexterity:</strong> {profile.dexterity}</p>
-                    <p><strong>Constitution:</strong> {profile.constitution}</p>
-                    <p><strong>Intelligence:</strong> {profile.intelligence}</p>
-                    <p><strong>Wisdom:</strong> {profile.wisdom}</p>
-                    <p><strong>Charisma:</strong> {profile.charisma}</p>
-                    <p><strong>Armor Class:</strong> {profile.ac}</p>
-                    <p><strong>Initiative Modifier:</strong> {profile.initiative_modifier}</p>
-                    <p><strong>HP:</strong> {profile.current_hp}/{profile.max_hp}</p>
+                    <h2>Character Details</h2>
+                    <button onClick={() => {
+                        setIsEditingProfile(!isEditingProfile);
+                        if (!isEditingProfile) setEditedProfile({ ...profile }); // Clone profile for editing
+                    }} className="modify-stats-button">
+                        {isEditingProfile ? <FaTimes /> : <FaEdit />} {isEditingProfile ? "Exit Edit Mode" : "Modify Stats"}
+                    </button>
+
+                    <p><strong>Name:</strong> {isEditingProfile ? (
+                        <input type="text" value={editedProfile.name} onChange={(e) => setEditedProfile({ ...editedProfile, name: e.target.value })} />
+                    ) : profile.name}</p>
+
+                    <p><strong>Class:</strong> {isEditingProfile ? (
+                        <input type="text" value={editedProfile.class} onChange={(e) => setEditedProfile({ ...editedProfile, class: e.target.value })} />
+                    ) : profile.class}</p>
+
+                    <p><strong>Race:</strong> {isEditingProfile ? (
+                        <input type="text" value={editedProfile.race} onChange={(e) => setEditedProfile({ ...editedProfile, race: e.target.value })} />
+                    ) : profile.race}</p>
+
+                    <p><strong>Level:</strong> {isEditingProfile ? (
+                        <input type="number" value={editedProfile.level} onChange={(e) => setEditedProfile({ ...editedProfile, level: parseInt(e.target.value) || 0 })} />
+                    ) : profile.level}</p>
+
+                    <h3>Attributes</h3>
+                    {["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].map(attr => (
+                        <p key={attr}>
+                            <strong>{attr.charAt(0).toUpperCase() + attr.slice(1)}:</strong> {isEditingProfile ? (
+                                <input type="number" value={editedProfile[attr]} onChange={(e) => setEditedProfile({ ...editedProfile, [attr]: parseInt(e.target.value) || 0 })} />
+                            ) : profile[attr]}
+                        </p>
+                    ))}
+
+                    <h3>Combat Stats</h3>
+                    <p><strong>Armor Class:</strong> {isEditingProfile ? (
+                        <input type="number" value={editedProfile.ac} onChange={(e) => setEditedProfile({ ...editedProfile, ac: parseInt(e.target.value) || 0 })} />
+                    ) : profile.ac}</p>
+
+                    <p><strong>Initiative Modifier:</strong> {isEditingProfile ? (
+                        <input type="number" value={editedProfile.initiative_modifier} onChange={(e) => setEditedProfile({ ...editedProfile, initiative_modifier: parseInt(e.target.value) || 0 })} />
+                    ) : profile.initiative_modifier}</p>
+
+                    <p><strong>HP:</strong> {isEditingProfile ? (
+                        <>
+                            <input type="number" value={editedProfile.current_hp} onChange={(e) => setEditedProfile({ ...editedProfile, current_hp: parseInt(e.target.value) || 0 })} /> /
+                            <input type="number" value={editedProfile.max_hp} onChange={(e) => setEditedProfile({ ...editedProfile, max_hp: parseInt(e.target.value) || 0 })} />
+                        </>
+                    ) : `${profile.current_hp}/${profile.max_hp}`}</p>
+
+                    <button onClick={async () => {
+                        if (isEditingProfile) {
+                            try {
+                                await fetch(`http://localhost:5001/campaigns/${campaignId}/profiles/${profileId}/update`, {
+                                    method: 'PATCH',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify(editedProfile),
+                                });
+                                setProfile(editedProfile);
+                            } catch (error) {
+                                console.error("Error updating profile:", error);
+                            }
+                        }
+                        setIsEditingProfile(false);
+                    }} className="save-profile-button">
+                        {isEditingProfile ? "Save Changes" : ""}
+                    </button>
                 </div>
             )}
+
             <div className="game-log">
                 <h2>Game Log</h2>
                 {['discoveries', 'battles', 'notes'].map((section) => (
