@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProfilePage from './ProfilePage';
 import GMViewPage from './GMViewPage';  // Import the new GM view page
 import PlayerViewPage from './PlayerViewPage';  // Import the new page
+import './App.css';
 
 
 const App = () => {
@@ -57,7 +58,7 @@ const App = () => {
   const saveEdit = async (id) => {
     try {
       // Change this to a PATCH request instead of PUT
-      //const response = await axios.patch(`http://localhost:5001/campaigns/${id}`, { name: editedName });
+      const response = await axios.patch(`http://localhost:5001/campaigns/${id}`, { name: editedName });
       setCampaigns(campaigns.map(camp => (camp.id === id ? { ...camp, name: editedName } : camp)));
       setEditingId(null);
     } catch (error) {
@@ -73,14 +74,12 @@ const App = () => {
           path="/"
           element={
             <div>
-              <h1 className="text-3xl mb-4">Digital Score & Stat Keeper</h1>
-
               {/* Edit Mode Toggle Button */}
               <div className="flex justify-between mb-4">
-                <h2 className="text-2xl">Campaigns</h2>
+                <h1 className="text-2xl">Choose a Campaign</h1>
                 <button
                   onClick={() => setEditMode(!editMode)}
-                  className="p-2 bg-blue-500 text-white rounded"
+                  className="edit"
                 >
                   {editMode ? 'Exit' : 'Edit'}
                 </button>
@@ -96,7 +95,7 @@ const App = () => {
                     className="border p-2 rounded mb-4"
                     placeholder="Enter Campaign Name"
                   />
-                  <button onClick={addCampaign} className="p-2 bg-green-500 text-white rounded">
+                  <button onClick={addCampaign} className="add-campaign">
                     Add New Campaign
                   </button>
 
@@ -130,7 +129,7 @@ const App = () => {
                           ) : null}
                           <button
                             onClick={() => deleteCampaign(campaign.id)}
-                            className="ml-2 p-1 bg-red-500 text-white rounded"
+                            className="delete"
                           >
                             Delete
                           </button>
@@ -144,11 +143,15 @@ const App = () => {
                   {/* Default View - List Campaigns */}
                   <ul>
                     {campaigns.map(campaign => (
-                      <li key={campaign.id} className="mb-2">
-                        <Link to={`/campaigns/${campaign.id}`} className="cursor-pointer text-blue-600">
+                      <Link
+                        to={`/campaigns/${campaign.id}`}
+                        key={campaign.id}
+                        className="block mb-2 no-underline"
+                      >
+                        <li className="mb-2">
                           {campaign.name}
-                        </Link>
-                      </li>
+                        </li>
+                      </Link>
                     ))}
                   </ul>
                 </div>

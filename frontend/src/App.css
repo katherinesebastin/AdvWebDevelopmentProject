@@ -1,38 +1,152 @@
-.App {
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=Uncial+Antiqua&family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+/* Adding Cinzel font */
+
+body {
+  font-family: 'Cinzel', serif;
+  /* Medieval fantasy font */
+  background-color: #e4d8b4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: radial-gradient(circle, #d4c19c 10%, #bfa176 70%);
+}
+
+.p-8 {
+  padding: 2rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  font-size: 100px;
+  font-weight: bold;
+  color: #3e2212;
+  text-shadow: 4px 4px 5px #8b5a2b;
+  font-family: 'Old English Text MT';
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #4b2c15;
+  font-family: 'IM Fell English SC', serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Campaign List Styles */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.App-link {
-  color: #61dafb;
+li {
+  background: #a97c50;
+  padding: 24px 16px;
+  border-radius: 15px;
+  margin-bottom: 16px;
+  transition: 0.3s;
+  border: 3px double #5a3e1b;
+  font-family: 'MedievalSharp', cursive;
+  /* Medieval-style font for campaign names */
+  font-size: 28px;
+  position: relative;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+li:first-child {
+  margin-top: 20px;
+}
+
+li:hover {
+  background: #8f6842;
+}
+
+li a {
+  text-decoration: none;
+  color: #3e2212;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+a.no-underline {
+  text-decoration: none;
+  color: #3e2212;
+  font-weight: 600;
+  font-size: 28px;
+}
+
+/* Input Field Styles */
+input[type="text"] {
+  font-family: 'IM Fell English SC', serif;
+  font-size: 24px;
+  padding: 16px;
+  width: 400px;
+  border-radius: 10px;
+  border: 3px solid #5a3e1b;
+  background-color: #f4e1c1;
+  margin-right: 10px;
+}
+
+/* Button Styles */
+button {
+  border: 3px double #5a3e1b;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+  font-family: 'IM Fell English SC', serif;
+  background: #7b4b2a;
+  color: #fff;
+  position: relative;
+}
+
+button:hover {
+  background: #5a3e1b;
+}
+
+/* Edit button at the bottom right */
+button.edit {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Add New Campaign button next to the input */
+button.add-campaign {
+  background-color: #4e7323;
+  color: #fff;
+}
+
+/* Delete button next to each campaign name */
+button.delete {
+  background: #8b0000;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  font-size: 16px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Button Color Variations */
+.bg-blue-500 {
+  background-color: #6b4226;
+  color: #fff;
+}
+
+.bg-green-500 {
+  background-color: #4e7323;
+  color: #fff;
+}
+
+.bg-red-500 {
+  background-color: #8b0000;
+  color: #fff;
 }

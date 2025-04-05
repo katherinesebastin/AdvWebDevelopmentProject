@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import "./ProfilePage.css";
 
 const PlayerProfilePage = () => {
   const { id } = useParams();  // Get campaign ID from URL
@@ -94,6 +95,7 @@ const PlayerProfilePage = () => {
 
 
   return (
+    <div className="player-profile-page">
     <div>
       <h1>Campaign: {campaign ? campaign.name : 'Loading...'}</h1>
 
@@ -217,6 +219,7 @@ const PlayerProfilePage = () => {
           </ul>
         </div>
       )}
+    </div>
     </div>
   );
 };

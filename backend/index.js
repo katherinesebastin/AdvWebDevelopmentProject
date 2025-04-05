@@ -290,7 +290,6 @@ app.patch('/campaigns/:id/gamelog', async (req, res) => {
 // Player Endpoints
 // Get a specific profile within a campaign from the profiles table
 
-//other path to avoid issues later on
 app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
   const { campaignId, profileId } = req.params;
 
