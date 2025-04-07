@@ -1,33 +1,177 @@
-/* src/GMViewPage.css */
-.gm-view-container {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .profile-carousel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .profile-list {
-    display: flex;
-    overflow: hidden;
-  }
-  
-  .profile-card {
-    min-width: 150px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
-  
-  .nav-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-  }
-  
+/* GM View Page Styles */
+.gm-view-page .profile-carousel {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.gm-view-page .profile-list {
+  display: flex; /* Align profile names horizontally */
+  gap: 20px; /* Space between profiles */
+  justify-content: center; /* Center profiles */
+  width: 100%; /* Ensure full width */
+}
+
+.gm-view-page .profile-card {
+  background-color: #a97c50;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 18px;
+  width: 150px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 3px solid #5a3e1b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gm-view-page .game-log {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gm-view-page .game-log-section {
+  width: 80%; /* Make sections wider */
+  margin-bottom: 20px;
+  background-color: #a97c50;
+  padding: 20px;
+  border-radius: 15px;
+  border: 3px double #5a3e1b;
+  max-width: 1200px; /* Add max width to limit its growth */
+}
+
+.gm-view-page .game-log-section h3 {
+  font-size: 24px;
+  color: #4b2c15;
+  cursor: pointer;
+}
+
+.gm-view-page .game-log-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.gm-view-page .game-log-section li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e4d8b4;
+  border-radius: 10px;
+  font-size: 16px;
+  border: 2px solid #5a3e1b;
+  transition: 0.3s;
+}
+
+.gm-view-page .game-log-section li:hover {
+  background-color: #d4c19c;
+}
+
+.gm-view-page textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #5a3e1b;
+  background-color: #f4e1c1;
+  font-family: 'IM Fell English SC', serif;
+  font-size: 16px;
+}
+
+.gm-view-page button {
+  border: 3px double #5a3e1b;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  background: #7b4b2a;
+  color: #fff;
+  position: relative;
+  margin-top: 10px;
+}
+
+.gm-view-page button:hover {
+  background: #5a3e1b;
+}
+
+.gm-view-page .buttons {
+  margin-top: 20px;
+}
+
+.gm-view-page .return-to-gm-button {
+  background-color: #6b4226;
+  margin-top: 20px;
+}
+
+.gm-view-page .back-to-campaigns-button {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: #4e7323;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.gm-view-page .return-to-gm-button, .gm-view-page .back-to-campaigns-button {
+  font-size: 18px;
+}
+
+.gm-view-page button.delete {
+  background: #8b0000;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  font-size: 16px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+/* Profile Carousel Button Styles */
+.gm-view-page .nav-button {
+  background-color: #6b4226;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.gm-view-page .nav-button:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+/* Edit Mode Styles */
+.gm-view-page textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid #5a3e1b;
+  background-color: #f4e1c1;
+  font-family: 'IM Fell English SC', serif;
+  font-size: 16px;
+}
+
+.gm-view-page button.edit, .gm-view-page .exit-edit-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.gm-view-page button.exit-edit-button {
+  background-color: #8b0000;
+}
+
+.gm-view-page button.edit {
+  background-color: #4e7323;
+}

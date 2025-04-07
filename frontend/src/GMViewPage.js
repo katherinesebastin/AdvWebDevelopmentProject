@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, FaChevronUp, FaChevronDown, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import PlayerViewPage from './PlayerViewPage';
+import './GMViewPage.css';
 
 
 const GMViewPage = () => {
@@ -138,105 +139,107 @@ const GMViewPage = () => {
   };
 
   return (
-    <div className="gm-view-container">
-      {/* Only show the profile carousel if no profile is selected */}
-      {!selectedProfileId && (
-        <div className="profile-carousel">
-          <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
-            <FaChevronLeft />
-          </button>
-          <div className="profile-list">
-            {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
-              <div key={profile.id} className="profile-card" onClick={() => handleProfileClick(profile.id)}>
-                <p>{profile.name}</p>
-              </div>
-            ))}
+    <div className="gm-view-page">
+      <div className="gm-view-container">
+        {/* Only show the profile carousel if no profile is selected */}
+        {!selectedProfileId && (
+          <div className="profile-carousel">
+            <button className="nav-button" onClick={handlePrev} disabled={currentIndex === 0}>
+              <FaChevronLeft />
+            </button>
+            <div className="profile-list">
+              {profiles.slice(currentIndex, currentIndex + profilesPerPage).map((profile) => (
+                <div key={profile.id} className="profile-card" onClick={() => handleProfileClick(profile.id)}>
+                  <p>{profile.name}</p>
+                </div>
+              ))}
+            </div>
+            <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
+              <FaChevronRight />
+            </button>
           </div>
-          <button className="nav-button" onClick={handleNext} disabled={currentIndex + profilesPerPage >= profiles.length}>
-            <FaChevronRight />
-          </button>
-        </div>
-      )}
-
-      {/* Render PlayerViewPage when a profile is selected */}
-      {selectedProfileId && (
-        <div>
-          <PlayerViewPage campaignId={id} profileId={selectedProfileId} />
-          <button onClick={() => setSelectedProfileId(null)} className="return-to-gm-button">
-            Return to GM View
-          </button>
-        </div>
-      )}
-
-      <div className="game-log">
-        <h2>Game Log</h2>
-        {['discoveries', 'battles', 'notes'].map((section) => (
-          <div key={section} className="game-log-section">
-            <h3 onClick={() => toggleSection(section)} style={{ cursor: 'pointer' }}>
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-              {expandedSections[section] ? <FaChevronUp /> : <FaChevronDown />}
-            </h3>
-            {expandedSections[section] && (
-              <div>
-                <ul>
-                  {gameLog[section].map((item, index) => (
-                    <li key={index}>
-                      {isEditing ? (
-                        <textarea
-                          value={item}
-                          onChange={(e) => handleEditItem(section, index, e.target.value)}
-                          rows="4"
-                          cols="50"
-                        />
-                      ) : (
-                        <div>
-                          {item.split('\n').map((paragraph, i) => (
-                            <p key={i}>{paragraph}</p>
-                          ))}
-                        </div>
-                      )}
-                      {isEditing && (
-                        <button onClick={() => handleDeleteItem(section, index)}>
-                          <FaTrash /> Delete
-                        </button>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-
-                {isEditing && (
-                  <>
-                    <textarea
-                      value={newEntries[section]}
-                      onChange={(e) => setNewEntries((prev) => ({ ...prev, [section]: e.target.value }))}
-                      rows="4"
-                      cols="50"
-                      placeholder={`Enter new ${section.slice(0, -1)}`}
-                    />
-                    <button onClick={() => handleAddItem(section)}>Add {section.slice(0, -1)}</button>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div className="buttons">
-        {isEditing ? (
-          <button onClick={toggleEditMode} className="exit-edit-button">
-            <FaTimes /> Exit Edit Mode
-          </button>
-        ) : (
-          <button onClick={toggleEditMode} className="edit-button">
-            <FaEdit /> Edit Game Log
-          </button>
         )}
-      </div>
 
-      <button onClick={handleBackToCampaigns} className="back-to-campaigns-button bottom-left">
-        Back to Campaigns
-      </button>
+        {/* Render PlayerViewPage when a profile is selected */}
+        {selectedProfileId && (
+          <div>
+            <PlayerViewPage campaignId={id} profileId={selectedProfileId} />
+            <button onClick={() => setSelectedProfileId(null)} className="return-to-gm-button">
+              Return to GM View
+            </button>
+          </div>
+        )}
+
+        <div className="game-log">
+          <h1>Game Log</h1>
+          {['discoveries', 'battles', 'notes'].map((section) => (
+            <div key={section} className="game-log-section">
+              <h3 onClick={() => toggleSection(section)} style={{ cursor: 'pointer' }}>
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+                {expandedSections[section] ? <FaChevronUp /> : <FaChevronDown />}
+              </h3>
+              {expandedSections[section] && (
+                <div>
+                  <ul>
+                    {gameLog[section].map((item, index) => (
+                      <li key={index}>
+                        {isEditing ? (
+                          <textarea
+                            value={item}
+                            onChange={(e) => handleEditItem(section, index, e.target.value)}
+                            rows="4"
+                            cols="50"
+                          />
+                        ) : (
+                          <div>
+                            {item.split('\n').map((paragraph, i) => (
+                              <p key={i}>{paragraph}</p>
+                            ))}
+                          </div>
+                        )}
+                        {isEditing && (
+                          <button onClick={() => handleDeleteItem(section, index)}>
+                            <FaTrash /> Delete
+                          </button>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {isEditing && (
+                    <>
+                      <textarea
+                        value={newEntries[section]}
+                        onChange={(e) => setNewEntries((prev) => ({ ...prev, [section]: e.target.value }))}
+                        rows="4"
+                        cols="50"
+                        placeholder={`Enter new ${section.slice(0, -1)}`}
+                      />
+                      <button onClick={() => handleAddItem(section)}>Add {section.slice(0, -1)}</button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="buttons">
+          {isEditing ? (
+            <button onClick={toggleEditMode} className="exit-edit-button">
+              <FaTimes /> Exit Edit Mode
+            </button>
+          ) : (
+            <button onClick={toggleEditMode} className="edit-button">
+              <FaEdit /> Edit Game Log
+            </button>
+          )}
+        </div>
+
+        <button onClick={handleBackToCampaigns} className="back-to-campaigns-button bottom-left">
+          Back to Campaigns
+        </button>
+      </div>
     </div>
   );
 };

@@ -67,7 +67,7 @@ const App = () => {
   };
 
   return (
-    <div className="p-8">
+    <div className="container">
       <Routes>
         {/* Campaign List Page (Homepage) */}
         <Route
