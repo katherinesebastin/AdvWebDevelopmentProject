@@ -1,11 +1,117 @@
+/* ProfilePage.css */
 .player-profile-page {
-    font-family: Arial, sans-serif;
-    background-color: #ffb8b8;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh; /* Ensure it covers the whole page */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center profile items horizontally */
+    justify-content: flex-start;
+    /* Ensure the content is not pushed to the middle of the page vertically */
+    width: 100%;
+    /* Full width of the screen */
+    min-height: 100vh;
+    /* Full height of the screen */
+    padding: 20px;
 }
 
-.player-profile-page button {
-    background-color: red;
+/* Center the list of profiles */
+ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center the list of profile items horizontally */
+    width: 100%;
+    /* Ensure it spans the full width */
+    padding: 0;
+    margin: 0;
+}
+
+/* Ensure the entire campaign list item is clickable */
+/* Default size for profile item */
+li.profile-item {
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 24px 16px;
+    border-radius: 15px;
+    margin-bottom: 16px;
+    background: #a97c50;
+    border: 3px double #5a3e1b;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 28px;
+    position: relative;
+    width: 750px;
+    height: 30px;
+    min-height: 30px;
+    min-width: 750px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* When editing, increase the size of the profile item */
+li.editing {
+    width: 750px;
+    height: 200px; /* Make it taller */
+    padding: 24px 16px 24px 16px; /* Add extra padding */
+}
+
+li.profile-item:hover {
+    background: #8f6842;
+}
+
+/* Remove underline and make link fill the parent */
+li.profile-item a.full-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    /* Ensure the profile name is centered */
+}
+
+/* Bottom-left button positioning override for "Campaigns" button */
+button.campaigns-button {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+/* GM Profile styling (lighter box) */
+li.gm-profile {
+    background: #cab48f;
+    color: #2f1c0f;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: background 0.3s;
+    padding: 24px 16px;
+    border-radius: 15px;
+    border: 3px double #5a3e1b;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 28px;
+    position: relative;
+
+    width: 750px;
+    height: 30px;
+    min-height: 30px;
+    min-width: 750px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+li.gm-profile:hover {
+    background: #c2aa8c;
+}
+
+li.gm-profile a.full-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+    text-align: center;
+    /* Ensure the profile name is centered */
 }

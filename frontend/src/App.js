@@ -81,7 +81,7 @@ const App = () => {
                   onClick={() => setEditMode(!editMode)}
                   className="edit"
                 >
-                  {editMode ? 'Exit' : 'Edit'}
+                  {editMode ? 'Exit Edit View' : 'Edit'}
                 </button>
               </div>
 
@@ -102,14 +102,25 @@ const App = () => {
                   {/* List of Campaigns with Edit/Delete Options */}
                   <ul className="mt-4">
                     {campaigns.map(campaign => (
-                      <li key={campaign.id} className="flex justify-between items-center mb-2">
+                      <li
+                        key={campaign.id}
+                        className={`flex justify-between items-center mb-2 ${editingId === campaign.id ? 'editing' : ''}`}
+                      >
                         {editingId === campaign.id ? (
-                          <input
-                            type="text"
-                            value={editedName}
-                            onChange={(e) => setEditedName(e.target.value)}
-                            className="border p-1 rounded"
-                          />
+                          <>
+                            <input
+                              type="text"
+                              value={editedName}
+                              onChange={(e) => setEditedName(e.target.value)}
+                              className="border p-1 rounded mr-2"
+                            />
+                            <button
+                              onClick={() => saveEdit(campaign.id)}
+                              className="p-1 bg-green-500 text-white rounded"
+                            >
+                              Save
+                            </button>
+                          </>
                         ) : (
                           <span
                             className="cursor-pointer text-blue-600"
@@ -119,20 +130,14 @@ const App = () => {
                           </span>
                         )}
                         <div>
-                          {editingId === campaign.id ? (
+                          {editingId === campaign.id ? null : (
                             <button
-                              onClick={() => saveEdit(campaign.id)}
-                              className="ml-2 p-1 bg-green-500 text-white rounded"
+                              onClick={() => deleteCampaign(campaign.id)}
+                              className="delete"
                             >
-                              Save
+                              Delete
                             </button>
-                          ) : null}
-                          <button
-                            onClick={() => deleteCampaign(campaign.id)}
-                            className="delete"
-                          >
-                            Delete
-                          </button>
+                          )}
                         </div>
                       </li>
                     ))}

@@ -50,10 +50,20 @@ li {
   transition: 0.3s;
   border: 3px double #5a3e1b;
   font-family: 'MedievalSharp', cursive;
-  /* Medieval-style font for campaign names */
   font-size: 28px;
   position: relative;
+  width: 750px; /* Fixed width */
+  height: 30px; /* Fixed height */
+  overflow: hidden;
 }
+
+/* Additional class for editing */
+li.editing {
+  width: 750px; /* Increase the width of the box when editing */
+  height: 80px; /* Increase the height of the box when editing */
+  padding: 24px 16px 24px 16px; /* Increase padding to give more space */
+}
+
 
 li:first-child {
   margin-top: 20px;
