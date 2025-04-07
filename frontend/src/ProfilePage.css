@@ -1,4 +1,7 @@
 /* ProfilePage.css */
+/* Test to ensure CSS is working */
+/* ProfilePage.css */
+
 .player-profile-page {
     display: flex;
     flex-direction: column;
@@ -34,12 +37,18 @@ li.profile-item {
     border-radius: 15px;
     margin-bottom: 16px;
     background: #a97c50;
+    /* Same background color as app.css */
     border: 3px double #5a3e1b;
+    /* Same border style as app.css */
     font-family: 'MedievalSharp', cursive;
+    /* Same font-family as app.css */
     font-size: 28px;
+    /* Same font-size as app.css */
     position: relative;
     width: 750px;
+    /* Same width as app.css */
     height: 30px;
+    /* Same height as app.css */
     min-height: 30px;
     min-width: 750px;
     display: flex;
@@ -47,27 +56,33 @@ li.profile-item {
     justify-content: center;
 }
 
+/* Hover effect for profile items */
+li.profile-item:hover {
+    background: #8f6842;
+    /* Same hover color as app.css */
+}
+
 /* When editing, increase the size of the profile item */
 li.editing {
     width: 750px;
-    height: 200px; /* Make it taller */
-    padding: 24px 16px 24px 16px; /* Add extra padding */
-}
-
-li.profile-item:hover {
-    background: #8f6842;
+    height: 200px;
+    /* Make it taller */
+    padding: 24px 16px 24px 16px;
+    /* Add extra padding */
 }
 
 /* Remove underline and make link fill the parent */
-li.profile-item a.full-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-    color: inherit;
+/* Make sure that links appear as normal text without the default blue and underline */
+a.full-link,
+a.no-underline {
     text-decoration: none;
+    /* Remove underline */
+    color: #3e2212;
+    /* Inherit the color from the parent element */
     font-weight: 600;
-    text-align: center;
-    /* Ensure the profile name is centered */
+    /* Apply the bold font weight */
+    font-size: 28px;
+    /* Apply the font size */
 }
 
 /* Bottom-left button positioning override for "Campaigns" button */
@@ -81,6 +96,7 @@ button.campaigns-button {
 /* GM Profile styling (lighter box) */
 li.gm-profile {
     background: #cab48f;
+    /* Slightly different background for GM profile */
     color: #2f1c0f;
     margin-bottom: 30px;
     cursor: pointer;
@@ -91,9 +107,10 @@ li.gm-profile {
     font-family: 'MedievalSharp', cursive;
     font-size: 28px;
     position: relative;
-
     width: 750px;
+    /* Same width as app.css */
     height: 30px;
+    /* Same height as app.css */
     min-height: 30px;
     min-width: 750px;
     display: flex;
@@ -101,8 +118,10 @@ li.gm-profile {
     justify-content: center;
 }
 
+/* Hover effect for GM profile */
 li.gm-profile:hover {
     background: #c2aa8c;
+    /* Slightly different hover effect */
 }
 
 li.gm-profile a.full-link {

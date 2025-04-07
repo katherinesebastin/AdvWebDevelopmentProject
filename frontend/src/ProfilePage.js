@@ -103,142 +103,144 @@ const PlayerProfilePage = () => {
 
   return (
     <div className="player-profile-page">
-      <div>
-        <h1> {campaign ? campaign.name : 'Loading...'}</h1>
+      <div className="content-wrapper">
+        <div>
+          <h1> {campaign ? campaign.name : 'Loading...'}</h1>
 
-        <button
-          onClick={goToCampaigns}
-          className="campaigns-button bg-blue-500 text-white rounded p-2"
-        >
-          Campaigns
-        </button>
+          <button
+            onClick={goToCampaigns}
+            className="campaigns-button bg-blue-500 text-white rounded p-2"
+          >
+            Campaigns
+          </button>
 
-        {/* Toggle button between Edit and Default view */}
-        <button
-          onClick={toggleEditView}
-          className="edit"
-        >
-          {editMode ? 'Exit Edit View' : 'Edit'}
-        </button>
+          {/* Toggle button between Edit and Default view */}
+          <button
+            onClick={toggleEditView}
+            className="edit"
+          >
+            {editMode ? 'Exit Edit View' : 'Edit'}
+          </button>
 
-        {/* Default View - GM Profile and Profiles */}
-        {!editMode ? (
-          <div>
-            {/* GM Profile */}
-            {gmProfile ? (
-              <ul className="mb-4">
-                <li className="gm-profile">
-                  <Link to={`/gm/${id}`} className="full-link">
-                    {gmProfile.name} (GM)
-                  </Link>
-                </li>
+          {!editMode ? (
+            <div>
+              {/* GM Profile */}
+              {gmProfile ? (
+                <ul className="mb-4">
+                  <li className="gm-profile">
+                    <Link to={`/gm/${id}`} className="full-link">
+                      {gmProfile.name} GM
+                    </Link>
+                  </li>
+                </ul>
+              ) : (
+                <div className="mb-4">
+                  <p>No GM Profile found.</p>
+                </div>
+              )}
+
+              {/* Profiles */}
+              {/*<h2 className="text-2xl mb-4"></h2>*/}
+              <ul className="mt-4">
+                {profiles.length === 0 ? (
+                  <p>No profiles created yet.</p>
+                ) : (
+                  profiles.map(profile => (
+                    <Link
+                      to={`/player/${id}/${profile.id}`} // Link to PlayerViewPage
+                      key={profile.id}
+                      className="full-link"
+                    >
+                      <li
+                        className={`profile-item ${editingProfileId === profile.id ? 'editing' : ''}`}
+                      >
+                        {profile.name === 'GM' ? (
+                          <span>{profile.name} (GM)</span> // GM profile remains non-deletable
+                        ) : (
+                          <div className="flex justify-between w-full">
+                            <span className="cursor-pointer text-blue-600">
+                              {profile.name}
+                            </span>
+                          </div>
+                        )}
+                      </li>
+                    </Link>
+                  ))
+                )}
               </ul>
-            ) : (
-              <div className="mb-4">
-                <p>No GM Profile found.</p>
-              </div>
-            )}
+            </div>
+          ) : (
+            // Edit View - Add New Profile and Edit/Delete Options
+            <div>
+              <h2 className="text-2xl mb-4">Edit Profiles</h2>
 
-            {/* Profiles */}
-            <h2 className="text-2xl mb-4"></h2>
-            <ul className="mt-4">
-              {profiles.length === 0 ? (
-                <p>No profiles created yet.</p>
-              ) : (
-                profiles.map(profile => (
-                  <li
-                    key={profile.id}
-                    className={`profile-item mb-2 ${editingProfileId === profile.id ? 'editing' : ''}`}
-                  >
-                    {profile.name === 'GM' ? (
-                      <span>{profile.name} (GM)</span> // GM profile remains non-deletable
-                    ) : (
-                      <div className="flex justify-between w-full">
-                        {/* No input or delete button in default view */}
-                        <span
-                          className="cursor-pointer text-blue-600"
-                          onClick={() => startEditing(profile.id, profile.name)}
-                        >
-                          {profile.name}
-                        </span>
-                      </div>
-                    )}
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        ) : (
-          // Edit View - Add New Profile and Edit/Delete Options
-          <div>
-            <h2 className="text-2xl mb-4">Edit Profiles</h2>
+              {/* Add New Profile */}
+              <input
+                type="text"
+                value={newProfileName}
+                onChange={(e) => setNewProfileName(e.target.value)}
+                placeholder="Enter new profile name"
+                className="border p-2 rounded mb-4"
+              />
+              <button
+                onClick={addProfile}
+                className="p-2 bg-green-500 text-white rounded"
+              >
+                Add New Profile
+              </button>
 
-            {/* Add New Profile */}
-            <input
-              type="text"
-              value={newProfileName}
-              onChange={(e) => setNewProfileName(e.target.value)}
-              placeholder="Enter new profile name"
-              className="border p-2 rounded mb-4"
-            />
-            <button
-              onClick={addProfile}
-              className="p-2 bg-green-500 text-white rounded"
-            >
-              Add New Profile
-            </button>
-
-            <ul className="mt-4">
-              {profiles.length === 0 ? (
-                <p>No profiles created yet.</p>
-              ) : (
-                profiles.map(profile => (
-                  <li
-                    key={profile.id}
-                    className={`profile-item mb-2 ${editingProfileId === profile.id ? 'editing' : ''}`}
-                  >
-                    {profile.name === 'GM' ? (
-                      <span>{profile.name} (GM)</span> // GM profile remains non-deletable
-                    ) : (
-                      <div className="flex justify-between">
-                        {editingProfileId === profile.id ? (
-                          <input
-                            type="text"
-                            value={editedProfileName}
-                            onChange={(e) => setEditedProfileName(e.target.value)}
-                            className="border p-2 rounded"
-                          />
-                        ) : (
-                          <span
-                            className="cursor-pointer text-blue-600"
-                            onClick={() => startEditing(profile.id, profile.name)}
-                          >
-                            {profile.name}
-                          </span>
-                        )}
-                        {editingProfileId === profile.id ? (
-                          <button
-                            onClick={() => saveEdit(profile.id)}
-                            className="ml-2 p-1 bg-green-500 text-white rounded"
-                          >
-                            Save
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => deleteProfile(profile.id)}
-                            className="delete"
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </li>
-                ))
-              )}
-            </ul>
-          </div>
-        )}
+              <ul className="mt-4">
+                {profiles.length === 0 ? (
+                  <p>No profiles created yet.</p>
+                ) : (
+                  profiles.map(profile => (
+                    <li
+                      key={profile.id}
+                      className={`profile-item mb-2 ${editingProfileId === profile.id ? 'editing' : ''}`}
+                    >
+                      {profile.name === 'GM' ? (
+                        <span>{profile.name} (GM)</span> // GM profile remains non-deletable
+                      ) : (
+                        <div className="flex justify-between">
+                          {editingProfileId === profile.id ? (
+                            <input
+                              type="text"
+                              value={editedProfileName}
+                              onChange={(e) => setEditedProfileName(e.target.value)}
+                              className="border p-2 rounded"
+                            />
+                          ) : (
+                            <span
+                              className="cursor-pointer text-blue-600"
+                              onClick={() => startEditing(profile.id, profile.name)}
+                            >
+                              {profile.name}
+                            </span>
+                          )}
+                          {editingProfileId === profile.id ? (
+                            <button
+                              onClick={() => saveEdit(profile.id)}
+                              className="ml-2 p-1 bg-green-500 text-white rounded"
+                            >
+                              Save
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => deleteProfile(profile.id)}
+                              className="delete"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </li>
+                  ))
+                )}
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
