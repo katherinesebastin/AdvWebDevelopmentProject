@@ -112,7 +112,6 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
             <h1>{profile ? `Showing Player View for ${profile.player_name}` : 'Loading...'}'s Game Log</h1>
 
             {/* New section to display character information */}
-            {/* New section to display character information */}
             {profile && (
                 <div className="player-info">
                     <h2>Character Details</h2>
@@ -224,10 +223,13 @@ const PlayerViewPage = ({ campaignId: propCampaignId, profileId: propProfileId }
                                             }}
                                             rows="4"
                                             cols="50"
-                                            placeholder={`Enter ${section.slice(0, -1)}`}
+                                            placeholder={`Enter ${section === 'discoveries' ? 'discovery' : section.slice(0, -1)}`}
                                         />
-                                        <button onClick={() => handleAddItem(section, section === 'notes' ? newNote : section === 'battles' ? newBattle : newDiscovery)} disabled={!newNote.trim() && !newBattle.trim() && !newDiscovery.trim()}>
-                                            Add {section.slice(0, -1)}
+                                        <button
+                                            onClick={() => handleAddItem(section, section === 'notes' ? newNote : section === 'battles' ? newBattle : newDiscovery)}
+                                            disabled={!newNote.trim() && !newBattle.trim() && !newDiscovery.trim()}
+                                        >
+                                            Add {section === 'notes' ? 'Note' : section === 'battles' ? 'Battle' : 'Discovery'}
                                         </button>
                                     </div>
                                 )}
