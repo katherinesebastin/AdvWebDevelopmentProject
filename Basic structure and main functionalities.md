@@ -47,7 +47,7 @@ The app makes sure that things like loading data from the backend happens smooth
 Here’s what the app can do:  
 - **Campaign Management**: Users can see a list of campaigns, and each campaign can be modified or deleted. New campaigns can also be added.
 - **Player Profile Management**: Players can see and update their profiles, including stats like health and stamina. They can also add game log entries.  
-- **Game Log Entrie**s: Both players and Game Masters can add logs to track the campaign's progress.  
+- **Game Log Entries**: Both players and Game Masters can add logs to track the campaign's progress.  
 We made sure all the main features were well-defined and worked correctly.  
 
 ## 7. Code quality and documentation
