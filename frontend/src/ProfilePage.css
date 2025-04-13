@@ -1,18 +1,10 @@
-/* ProfilePage.css */
-/* Test to ensure CSS is working */
-/* ProfilePage.css */
-
 .player-profile-page {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center profile items horizontally */
     justify-content: flex-start;
-    /* Ensure the content is not pushed to the middle of the page vertically */
     width: 100%;
-    /* Full width of the screen */
     min-height: 100vh;
-    /* Full height of the screen */
     padding: 20px;
 }
 
@@ -21,9 +13,7 @@ ul {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center the list of profile items horizontally */
     width: 100%;
-    /* Ensure it spans the full width */
     padding: 0;
     margin: 0;
 }
@@ -37,18 +27,12 @@ li.profile-item {
     border-radius: 15px;
     margin-bottom: 16px;
     background: #a97c50;
-    /* Same background color as app.css */
     border: 3px double #5a3e1b;
-    /* Same border style as app.css */
     font-family: 'MedievalSharp', cursive;
-    /* Same font-family as app.css */
     font-size: 28px;
-    /* Same font-size as app.css */
     position: relative;
     width: 750px;
-    /* Same width as app.css */
     height: 30px;
-    /* Same height as app.css */
     min-height: 30px;
     min-width: 750px;
     display: flex;
@@ -59,13 +43,12 @@ li.profile-item {
 /* Hover effect for profile items */
 li.profile-item:hover {
     background: #8f6842;
-    /* Same hover color as app.css */
 }
 
 /* When editing, increase the size of the profile item */
 li.editing {
     width: 750px;
-    height: 200px;
+    height: 80px;
     /* Make it taller */
     padding: 24px 16px 24px 16px;
     /* Add extra padding */

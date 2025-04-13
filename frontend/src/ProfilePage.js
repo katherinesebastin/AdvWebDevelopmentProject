@@ -1,4 +1,3 @@
-// src/PlayerProfilePage.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -111,7 +110,7 @@ const PlayerProfilePage = () => {
             onClick={goToCampaigns}
             className="campaigns-button bg-blue-500 text-white rounded p-2"
           >
-            Campaigns
+            Back to Campaigns
           </button>
 
           {/* Toggle button between Edit and Default view */}

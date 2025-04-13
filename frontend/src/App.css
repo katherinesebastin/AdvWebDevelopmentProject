@@ -67,9 +67,9 @@ li {
 
 /* Additional class for editing */
 li.editing {
-  width: 750px; /* Increase the width of the box when editing */
-  height: 80px; /* Increase the height of the box when editing */
-  padding: 24px 16px 24px 16px; /* Increase padding to give more space */
+  width: 750px; 
+  height: 80px; 
+  padding: 24px 16px 24px 16px; 
 }
 
 

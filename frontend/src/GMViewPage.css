@@ -1,17 +1,27 @@
-/* GM View Page Styles */
+.gm-view-page h2 {
+  font-size: 48px;
+  left: 20px;
+}
+
+/* Profile navigation */
+
 .gm-view-page .profile-carousel {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
   margin-bottom: 30px;
   width: 100%;
+  overflow-x: visible;
+  position: relative;
 }
 
 .gm-view-page .profile-list {
-  display: flex; /* Align profile names horizontally */
-  gap: 20px; /* Space between profiles */
-  justify-content: center; /* Center profiles */
-  width: 100%; /* Ensure full width */
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .gm-view-page .profile-card {
@@ -20,7 +30,8 @@
   border-radius: 15px;
   text-align: center;
   font-size: 18px;
-  width: 150px;
+  width: 180px;
+  height: 150px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   border: 3px solid #5a3e1b;
@@ -28,60 +39,115 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
+.gm-view-page .arrow {
+  background-color: #7b4b2a;
+  color: #fff;
+  border: 3px double #5a3e1b;
+  font-size: 24px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, background 0.3s ease;
+  margin: 0 30px;
+  font-family: 'IM Fell English SC', serif;
+}
+
+
+.gm-view-page .arrow:hover:not(:disabled) {
+  background-color: #5a3e1b;
+}
+
+.gm-view-page .arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+
+
+/* Game Log */
 .gm-view-page .game-log {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.gm-view-page .game-log h1 {
+  font-size: 100px;
+  font-weight: bold;
+  color: #3e2212;
+  text-shadow: 4px 4px 5px #8b5a2b;
+  font-family: 'Old English Text MT';
+  text-align: center;
+}
+
+.gm-view-page .game-log h3 {
+  font-size: 26px;
+  background-color: #a97c50;
+  padding: 10px;
+  border-radius: 15px;
+  border: 3px double #5a3e1b;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1200px;
+  height: 60px;
+  justify-content: center;
+  margin-left: 60px;
   align-items: center;
 }
 
-.gm-view-page .game-log-section {
-  width: 80%; /* Make sections wider */
-  margin-bottom: 20px;
-  background-color: #a97c50;
-  padding: 20px;
-  border-radius: 15px;
-  border: 3px double #5a3e1b;
-  max-width: 1200px; /* Add max width to limit its growth */
+/* Style for the heading */
+.gm-view-page .game-log-section .game-log-section-header {
+  padding: 10px;
 }
 
-.gm-view-page .game-log-section h3 {
-  font-size: 24px;
-  color: #4b2c15;
-  cursor: pointer;
-}
 
-.gm-view-page .game-log-section ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.gm-view-page .game-log-section li {
+/* Individual list items styling */
+.gm-view-page .game-log .game-log-items li {
   margin: 10px 0;
   padding: 10px;
-  background-color: #e4d8b4;
+  background-color: #c4a17e;
   border-radius: 10px;
   font-size: 16px;
   border: 2px solid #5a3e1b;
   transition: 0.3s;
+  width: 100%;
+  max-width: calc(1200px - 30px);
+  box-sizing: border-box;
+  height: auto;
+  position: relative;
+  /* Add this to make the li a positioned parent */
 }
 
-.gm-view-page .game-log-section li:hover {
+
+/* Hover effect for each log entry */
+.gm-view-page .game-log-items li:hover {
   background-color: #d4c19c;
 }
 
 .gm-view-page textarea {
   width: 100%;
+  max-width: calc(1200px - 30px);
+  /* Same max-width as the list items */
   padding: 12px;
   border-radius: 10px;
   border: 2px solid #5a3e1b;
   background-color: #f4e1c1;
   font-family: 'IM Fell English SC', serif;
   font-size: 16px;
+  box-sizing: border-box;
+  /* Make sure padding is included in the width */
 }
 
+/* Game Log list, no list style */
+.gm-view-page .game-log-section ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* Button Styling */
 .gm-view-page button {
   border: 3px double #5a3e1b;
   padding: 12px 18px;
@@ -107,69 +173,65 @@
   margin-top: 20px;
 }
 
+
+
+.gm-view-page .return-to-gm-button,
+.gm-view-page {
+  font-size: 18px;
+}
+
+.gm-view-page .button-group {
+  position: relative;
+  /* Ensure it is positioned relative to the <li> */
+  bottom: 20px;
+  /* Adjust to match the desired position */
+  right: 5px;
+  /* Align to the right */
+  display: flex;
+  gap: 8px;
+}
+
+.gm-view-page .save-button,
+.gm-view-page .delete {
+  border: 3px double #5a3e1b;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.gm-view-page .save-button {
+  background-color: #4e7323;
+  color: #fff;
+  top: 20px;
+}
+
+.gm-view-page .delete {
+  background: #8b0000;
+  color: #fff;
+  width: auto;
+  height: auto;
+  min-height: 40px;
+  min-width: 100px;
+  bottom: 30px;
+}
+
+
+.gm-view-page button.edit-view,
+.gm-view-page .exit-edit-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+}
+
 .gm-view-page .back-to-campaigns-button {
   position: absolute;
   bottom: 20px;
   left: 20px;
   background-color: #4e7323;
-  color: white;
+  color: rgb(255, 255, 255);
   font-size: 18px;
   border-radius: 10px;
-}
-
-.gm-view-page .return-to-gm-button, .gm-view-page .back-to-campaigns-button {
-  font-size: 18px;
-}
-
-.gm-view-page button.delete {
-  background: #8b0000;
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 6px 12px;
-  font-size: 16px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-/* Profile Carousel Button Styles */
-.gm-view-page .nav-button {
-  background-color: #6b4226;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.gm-view-page .nav-button:disabled {
-  background-color: #d3d3d3;
-  cursor: not-allowed;
-}
-
-/* Edit Mode Styles */
-.gm-view-page textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 2px solid #5a3e1b;
-  background-color: #f4e1c1;
-  font-family: 'IM Fell English SC', serif;
-  font-size: 16px;
-}
-
-.gm-view-page button.edit, .gm-view-page .exit-edit-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.gm-view-page button.exit-edit-button {
-  background-color: #8b0000;
 }
 
 .gm-view-page button.edit {

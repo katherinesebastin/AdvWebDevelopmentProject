@@ -313,8 +313,15 @@ app.get('/campaigns/:campaignId/profiles/:profileId', async (req, res) => {
 app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) => {
   const { campaignId, profileId } = req.params;
   const {
-    name, class: characterClass, race, level, strength, dexterity, constitution,
-    intelligence, wisdom, charisma, ac, initiative_modifier, current_hp, max_hp
+    name, class: characterClass, race, level,
+    strength, dexterity, constitution, intelligence, wisdom, charisma,
+    ac, initiative_modifier, current_hp, max_hp,
+    strength_modifier, dexterity_modifier, constitution_modifier,
+    intelligence_modifier, wisdom_modifier, charisma_modifier,
+    temporary_hp, hit_dice,
+    skills, proficiencies, languages,
+    equipment, weapons, armor, adventuring_gear, magic_items,
+    money, spellcasting, attack_rolls
   } = req.body;
 
   try {
@@ -333,24 +340,53 @@ app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) 
            ac = COALESCE($11, ac),
            initiative_modifier = COALESCE($12, initiative_modifier),
            current_hp = COALESCE($13, current_hp),
-           max_hp = COALESCE($14, max_hp)
-       WHERE campaign_id = $15 AND id = $16 
+           max_hp = COALESCE($14, max_hp),
+           strength_modifier = COALESCE($15, strength_modifier),
+           dexterity_modifier = COALESCE($16, dexterity_modifier),
+           constitution_modifier = COALESCE($17, constitution_modifier),
+           intelligence_modifier = COALESCE($18, intelligence_modifier),
+           wisdom_modifier = COALESCE($19, wisdom_modifier),
+           charisma_modifier = COALESCE($20, charisma_modifier),
+           temporary_hp = COALESCE($21, temporary_hp),
+           hit_dice = COALESCE($22, hit_dice),
+           skills = COALESCE($23, skills),
+           proficiencies = COALESCE($24, proficiencies),
+           languages = COALESCE($25, languages),
+           equipment = COALESCE($26, equipment),
+           weapons = COALESCE($27, weapons),
+           armor = COALESCE($28, armor),
+           adventuring_gear = COALESCE($29, adventuring_gear),
+           magic_items = COALESCE($30, magic_items),
+           money = COALESCE($31, money),
+           spellcasting = COALESCE($32, spellcasting),
+           attack_rolls = COALESCE($33, attack_rolls)
+       WHERE campaign_id = $34 AND id = $35 
        RETURNING *`,
-      [name, characterClass, race, level, strength, dexterity, constitution,
-        intelligence, wisdom, charisma, ac, initiative_modifier, current_hp, max_hp,
-        campaignId, profileId]
+      [
+        name, characterClass, race, level,
+        strength, dexterity, constitution, intelligence, wisdom, charisma,
+        ac, initiative_modifier, current_hp, max_hp,
+        strength_modifier, dexterity_modifier, constitution_modifier,
+        intelligence_modifier, wisdom_modifier, charisma_modifier,
+        temporary_hp, hit_dice,
+        skills, proficiencies, languages,
+        equipment, weapons, armor, adventuring_gear, magic_items,
+        money, spellcasting, attack_rolls,
+        campaignId, profileId
+      ]
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: 'Profile not found' });
     }
 
-    res.json(result.rows[0]);  // Return updated profile
+    res.json(result.rows[0]);
   } catch (err) {
     console.error('Error updating profile:', err);
     res.status(500).json({ message: 'Error updating profile', error: err });
   }
 });
+
 
 app.patch('/campaigns/:campaignId/profiles/:profileId/gamelog', async (req, res) => {
   const { campaignId, profileId } = req.params;

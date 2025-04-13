@@ -6,7 +6,6 @@ import GMViewPage from './GMViewPage';  // Import the new GM view page
 import PlayerViewPage from './PlayerViewPage';  // Import the new page
 import './App.css';
 
-
 const App = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [campaignName, setCampaignName] = useState('');
