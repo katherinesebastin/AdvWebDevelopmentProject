@@ -118,6 +118,10 @@
   box-sizing: border-box;
   height: auto;
   position: relative;
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
   /* Add this to make the li a positioned parent */
 }
 
@@ -181,41 +185,23 @@
 }
 
 .gm-view-page .button-group {
-  position: relative;
-  /* Ensure it is positioned relative to the <li> */
-  bottom: 20px;
-  /* Adjust to match the desired position */
-  right: 5px;
-  /* Align to the right */
   display: flex;
-  gap: 8px;
-}
-
-.gm-view-page .save-button,
-.gm-view-page .delete {
-  border: 3px double #5a3e1b;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.gm-view-page .save-button {
-  background-color: #4e7323;
-  color: #fff;
-  top: 20px;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  left: 20px;
 }
 
 .gm-view-page .delete {
   background: #8b0000;
   color: #fff;
-  width: auto;
-  height: auto;
-  min-height: 40px;
-  min-width: 100px;
-  bottom: 30px;
+  padding: 12px 18px;
+  border-radius: 10px;
 }
 
+.gm-view-page .save-button {
+  background-color: #4e7323;
+}
 
 .gm-view-page button.edit-view,
 .gm-view-page .exit-edit-button {
@@ -228,12 +214,8 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  background-color: #4e7323;
+  background-color: #7b4b2a;
   color: rgb(255, 255, 255);
   font-size: 18px;
   border-radius: 10px;
-}
-
-.gm-view-page button.edit {
-  background-color: #4e7323;
 }

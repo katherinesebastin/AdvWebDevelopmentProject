@@ -318,9 +318,8 @@ app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) 
     ac, initiative_modifier, current_hp, max_hp,
     strength_modifier, dexterity_modifier, constitution_modifier,
     intelligence_modifier, wisdom_modifier, charisma_modifier,
-    temporary_hp, hit_dice,
     skills, proficiencies, languages,
-    equipment, weapons, armor, adventuring_gear, magic_items,
+    equipment, magic_items,
     money, spellcasting, attack_rolls
   } = req.body;
 
@@ -347,20 +346,15 @@ app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) 
            intelligence_modifier = COALESCE($18, intelligence_modifier),
            wisdom_modifier = COALESCE($19, wisdom_modifier),
            charisma_modifier = COALESCE($20, charisma_modifier),
-           temporary_hp = COALESCE($21, temporary_hp),
-           hit_dice = COALESCE($22, hit_dice),
-           skills = COALESCE($23, skills),
-           proficiencies = COALESCE($24, proficiencies),
-           languages = COALESCE($25, languages),
-           equipment = COALESCE($26, equipment),
-           weapons = COALESCE($27, weapons),
-           armor = COALESCE($28, armor),
-           adventuring_gear = COALESCE($29, adventuring_gear),
-           magic_items = COALESCE($30, magic_items),
-           money = COALESCE($31, money),
-           spellcasting = COALESCE($32, spellcasting),
-           attack_rolls = COALESCE($33, attack_rolls)
-       WHERE campaign_id = $34 AND id = $35 
+           skills = COALESCE($21, skills),
+           proficiencies = COALESCE($22, proficiencies),
+           languages = COALESCE($23, languages),
+           equipment = COALESCE($24, equipment),
+           magic_items = COALESCE($25, magic_items),
+           money = COALESCE($26, money),
+           spellcasting = COALESCE($27, spellcasting),
+           attack_rolls = COALESCE($28, attack_rolls)
+       WHERE campaign_id = $29 AND id = $30 
        RETURNING *`,
       [
         name, characterClass, race, level,
@@ -368,9 +362,8 @@ app.patch('/campaigns/:campaignId/profiles/:profileId/update', async (req, res) 
         ac, initiative_modifier, current_hp, max_hp,
         strength_modifier, dexterity_modifier, constitution_modifier,
         intelligence_modifier, wisdom_modifier, charisma_modifier,
-        temporary_hp, hit_dice,
         skills, proficiencies, languages,
-        equipment, weapons, armor, adventuring_gear, magic_items,
+        equipment, magic_items,
         money, spellcasting, attack_rolls,
         campaignId, profileId
       ]

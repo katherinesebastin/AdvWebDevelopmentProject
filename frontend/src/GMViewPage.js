@@ -224,6 +224,7 @@ const GMViewPage = () => {
                     {gameLog[section].map((item, index) => (
                       <li key={index} style={{ position: 'relative' }}>
                         {editingItem.section === section && editingItem.index === index ? (
+                          // Editing the specific entry: Show Save button and textarea
                           <div>
                             <textarea
                               value={editedValue}
@@ -232,35 +233,42 @@ const GMViewPage = () => {
                               cols="50"
                             />
                             <div className="button-group">
-                              <button className="save-button" onClick={() => handleEditItem(section, index, item)}>
+                              <button
+                                className="save-button"
+                                onClick={() => handleEditItem(section, index, item)} // Save changes
+                              >
                                 Save
                               </button>
                             </div>
                           </div>
                         ) : (
+                          // Not editing the specific entry: Show Delete button and entry content
                           <div
                             onClick={() => {
-                              if (isEditing) handleEditItem(section, index, item);
+                              if (isEditing) handleEditItem(section, index, item); // Only allow editing in edit mode
                             }}
                             style={{ cursor: isEditing ? 'pointer' : 'default' }}
                           >
+                            {/* Display the item content */}
                             {item.split('\n').map((paragraph, i) => (
                               <p key={i}>{paragraph}</p>
                             ))}
-                          </div>
-                        )}
 
-                        {/* Delete Button (only if not the currently editing item) */}
-                        {isEditing &&
-                          (editingItem.index !== index || editingItem.section !== section) && (
-                            <div className="button-group">
-                              <button className="delete" onClick={() => handleDeleteItem(section, index)}>
+                            {/* Show the delete button only if not editing this entry */}
+                            {isEditing && editingItem.section !== section && editingItem.index !== index && (
+                              <button
+                                className="delete"
+                                onClick={(e) => {
+                                  e.stopPropagation(); // Prevent triggering edit when clicking delete
+                                  handleDeleteItem(section, index); // Delete item on click
+                                }}
+                              >
                                 <FaTrash /> Delete
                               </button>
-                            </div>
-                          )}
+                            )}
+                          </div>
+                        )}
                       </li>
-
                     ))}
                   </ul>
 
