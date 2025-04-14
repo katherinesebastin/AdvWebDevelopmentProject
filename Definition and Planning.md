@@ -123,7 +123,7 @@ User: Any player (New Player Jamie, Player Sam, or Veteran Player Riley)
 Trigger: User clicks the "Add New Profile" button.  
 Process:    
 - The tool auto-generates default values for information initially where applicable (e.g., default HP, skills, abilities, items etc.).   
-- Once the the player name is filled, the player clicks "Add New Profile," and the profile is stored in the system, ready for gameplay.  
+- Once the player name is filled, the player clicks "Add New Profile," and the profile is stored in the system, ready for gameplay.  
 
 Outcome:  
 - The player’s character profile is saved and accessible at any time for updates or gameplay.  
@@ -211,7 +211,7 @@ https://www.figma.com/proto/8h5QurgVusWKLe7DURKhyX/Web-Development?node-id=0-1&t
 
 #### 1. Hierarchical Structure
 1.	**Dashboard (Home Screen):**    
-- Quick access to Player Profiles, Game Logs, and Inventory  
+- Quick access to Player Profiles   
 
 2.	**Player Profile:**  
 - Character Stats (HP, Skills, Abilities, Equipment)
@@ -350,7 +350,7 @@ Key risks identified and mitigation strategies:
 -	Method: Simulate multiple users accessing and updating profiles and game logs simultaneously.  
 -	Success Metrics: No performance degradation, response times within acceptable ranges.
 
-### 3. Test Scenarios
+#### 3. Test Scenarios
 **Scenario 1: Player Profile Creation and Editing**  
 -	Test Objective: Verify that a user can create a profile, edit it, and the changes are saved correctly.  
 -	Steps:  
@@ -375,10 +375,10 @@ Key risks identified and mitigation strategies:
 3.	Verify the new stats are reflected and visible to the player.  
 -	Expected Outcome: Stats are successfully overridden.  
 
-### 4. User Feedback and Iteration  
+#### 4. User Feedback and Iteration  
 After each round of testing, feedback will be collected. This feedback will guide further refinement of the tool. User satisfaction and usability scores will be tracked to identify pain points or areas of improvement.  
 
-### 5. Reporting and Documentation  
+#### 5. Reporting and Documentation  
 A final User Testing Report will be generated that includes:  
 -	Test Results: Summary of test cases, results, and success metrics.  
 -	Issues Identified: List of bugs and usability issues.  
