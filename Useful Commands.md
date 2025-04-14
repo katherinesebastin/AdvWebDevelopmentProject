@@ -163,6 +163,14 @@ ALTER TABLE profiles
     ADD COLUMN skills TEXT[] DEFAULT '{}';
 
 
+ALTER TABLE profiles
+DROP COLUMN temporary_hp,
+DROP COLUMN hit_dice,
+DROP COLUMN weapons,
+DROP COLUMN armor,
+DROP COLUMN adventuring_gear;
+
+
 
 ## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
