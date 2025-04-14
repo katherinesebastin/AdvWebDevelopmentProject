@@ -25,3 +25,5 @@
 | 03.04.2025 | 2 | Phase 2 | Implementing update functionalities for player information |
 | 04.04.2025 | 2,5 | Phase 2 | Adding style sheet for campaigns page |
 | 10.04.2025 | 2 | Phase 2 | Documenting everything in Phase 2 |
+| 13.04.2025 | 2 | Phase 2 | Adding style sheet for GM view page and fixing update functionalities |
+| 13.04.2025 | 2 | Phase 2 | Setting website up in Linux VM |
