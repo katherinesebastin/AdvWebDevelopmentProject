@@ -137,6 +137,33 @@ ALTER TABLE profiles
   ALTER COLUMN skills SET DEFAULT '{}'::jsonb;
 
 
+
+-- Drop the existing JSONB columns
+ALTER TABLE profiles
+    DROP COLUMN attack_rolls,
+    DROP COLUMN spellcasting,
+    DROP COLUMN proficiencies,
+    DROP COLUMN equipment,
+    DROP COLUMN weapons,
+    DROP COLUMN adventuring_gear,
+    DROP COLUMN money,
+    DROP COLUMN magic_items,
+    DROP COLUMN skills;
+
+-- Re-add the columns as TEXT[] with default '{}'
+ALTER TABLE profiles
+    ADD COLUMN attack_rolls TEXT[] DEFAULT '{}',
+    ADD COLUMN spellcasting TEXT[] DEFAULT '{}',
+    ADD COLUMN proficiencies TEXT[] DEFAULT '{}',
+    ADD COLUMN equipment TEXT[] DEFAULT '{}',
+    ADD COLUMN weapons TEXT[] DEFAULT '{}',
+    ADD COLUMN adventuring_gear TEXT[] DEFAULT '{}',
+    ADD COLUMN money TEXT[] DEFAULT '{}',
+    ADD COLUMN magic_items TEXT[] DEFAULT '{}',
+    ADD COLUMN skills TEXT[] DEFAULT '{}';
+
+
+
 ## Create table: gm_view profiles
 CREATE TABLE gm_profiles (
   id SERIAL PRIMARY KEY,
