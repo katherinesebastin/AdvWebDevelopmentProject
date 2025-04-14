@@ -4,7 +4,7 @@ In this phase, we focused on creating the main structure, features and functiona
 
 ## 1. Environment
 
-We set up the project environment using a local virtual machine (VM).
+We set up the project environment using a local virtual machine (VM) running Linux.  
 
 ## 2. Backend
 
