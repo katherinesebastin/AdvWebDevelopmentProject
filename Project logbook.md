@@ -27,4 +27,5 @@
 | 10.04.2025 | 2 | Phase 2 | Documenting everything in Phase 2 |
 | 13.04.2025 | 2 | Phase 2 | Adding style sheet for GM view page and fixing update functionalities |
 | 13.04.2025 | 2 | Phase 2 | Setting website up in Linux VM |
-| 14.04.2025 | 4 | Phase 3 | Minor adjustmenst to CSS layout and unifor button layout |
+| 14.04.2025 | 4 | Phase 3 | Minor adjustmenst to CSS layout and uniform button layout |
+| 25.04.2025 | 1 | Phase 3 | Documenting the changes and adjustments made in Phase 3 |
