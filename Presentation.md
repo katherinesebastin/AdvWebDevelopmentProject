@@ -36,11 +36,11 @@ Created by: Alena Genkinger & Katherine Sebastin
 ❌ Inline editing was hard to make smooth    
 ✔️ Fixed by testing and adjusting the code  
 
-## Time Spent: 50.5 hours
+## Time Spent: 51.5 hours
 
 Planning, design, defining features, personas, use cases, technical design, prototypes – 16.5 h    
 Backend setup, frontend features, database work, fixing bugs, styling – 29 h    
-Layout adjustments, button consistency, final documentation – 5 h  
+Layout adjustments, button consistency, final documentation – 6 h  
 
 ## Future Plans
  
