@@ -46,4 +46,5 @@ Layout adjustments, button consistency, final documentation – 6 h
  
 - Make it mobile-friendly    
 - Add more styling and accessibility    
-- Improve the Game Log with dates and tags  
+- Improve the Game Log with dates and tags
+- Add game system selection and matching character sheets  
