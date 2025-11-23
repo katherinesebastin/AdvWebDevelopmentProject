@@ -1,4 +1,4 @@
-# Project phase 3 - Advanced features and optimization (Optional)
+# Project Phase 3 - Advanced Features and Optimization (Optional)
 
 ## 🎯 Chosen Use Case or Feature to Improve
 
