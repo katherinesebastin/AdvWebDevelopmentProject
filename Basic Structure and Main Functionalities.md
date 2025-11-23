@@ -1,4 +1,4 @@
-# Project phase 2 - Basic structure and main functionalities
+# Project Phase 2 - Basic Structure and Main Functionalities
 
 In this phase, we focused on creating the main structure, features and functionalities of the TTRPG project.  
 
@@ -32,7 +32,7 @@ We used PostgreSQL as our database because it is reliable and works well for sto
 - **GameLogs Table:** This table keeps track of the game logs for each campaign, noting down the events that happen during the game.   
 The backend uses SQL queries to interact with the database. This allows us to add, retrieve, update, and delete data as needed.   
 
-## 5. Basic structure and architecture
+## 5. Basic Structure and Architecture
 
 The app is separated into three main parts:  
 - **Model:** This handles the data and how it is stored in the database. Each model defines the structure of the data, like how a campaign or player profile should look.  
@@ -48,14 +48,14 @@ The main features the app are:
 - **Game Log Entries:** Both players and Game Masters can add log entries to keep track of the game’s progress. These logs are important to record events during the campaign.    
 We made sure all these features were properly defined and work as expected.   
 
-## 7. Code quality and documentation
+## 7. Code Quality and Documentation
 
 - **Backend:** The backend is split into routes, controllers, and models, which makes it easy to manage and update in the future.  
 - **Frontend:** The React components are organized so it’s easy to add new features or make changes.  
 - **Documentation:** We added comments in the code to explain how each part works. This makes it easier for anyone working on the project to understand the code.  
 By organizing the code this way, we make sure it’s simple to work with and maintain.    
 
-## 8. Testing and error handling
+## 8. Testing and Error Handling
 
 We made sure the app works properly by doing different types of testing and adding error handling:  
 - **Unit Tests:** We tested individual backend functions to make sure each one works correctly. For example, we tested adding a campaign to ensure the backend processes it properly.  
@@ -63,7 +63,7 @@ We made sure the app works properly by doing different types of testing and addi
 - **End-to-End Tests:** These tests check the entire app, from start to finish, to make sure everything works together as expected.  
 - **Error Handling:** We added error handling to prevent the app from crashing. If something goes wrong, the user will see an error message instead of the app just stopping. On the backend, we use try-catch blocks to handle errors, and on the frontend, we show helpful error messages to the user.  
 
-## 9. User interface and interaction
+## 9. User Interface and Interaction
 
 The user interface is simple and easy to use:  
 - The design is clean, with sections clearly separated so users can easily find what they’re looking for.  
