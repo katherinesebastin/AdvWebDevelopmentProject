@@ -1,4 +1,4 @@
-# Project phase 4 - Presentation
+# Project Phase 4 - Presentation
 
 ## 🎲 Digital Score & Stat Keeper
 A tool for managing tabletop RPG campaigns  
