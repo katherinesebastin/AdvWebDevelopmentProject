@@ -31,7 +31,7 @@ psql -h localhost -U postgres -d digital_score_stat_keeper
 ## Exit terminal
 \q  
 
-## Create table: profiles
+## Create Table: profiles
 CREATE TABLE profiles (  
   id SERIAL PRIMARY KEY,  
   campaign_id INTEGER NOT NULL,  
@@ -168,7 +168,7 @@ DROP COLUMN weapons,
 DROP COLUMN armor,  
 DROP COLUMN adventuring_gear;  
 
-## Create table: gm_view profiles
+## Create Table: gm_view profiles
 CREATE TABLE gm_profiles (  
   id SERIAL PRIMARY KEY,  
   campaign_id INTEGER REFERENCES campaigns(id) ON DELETE CASCADE,  
