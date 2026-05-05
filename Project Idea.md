@@ -7,11 +7,11 @@
 ### Game Master Control
 The GM can override stats and approve changes.  
 The GM can add hidden information (e.g., secret clues that only certain players can see).  
-Game Log – Players can write notes about discoveries, battles or key events.  
+**Game Log** – Players can write notes about discoveries, battles or key events.  
 
 ## Optional Features
-Dice Roller Integration – A simple roller.  
-Multiplayer Mode – Allow players to see each other’s characters (if public).  
+**Dice Roller Integration** – A simple roller.  
+**Multiplayer Mode** – Allow players to see each other’s characters (if public).  
 
 ## Tech Stack & Considerations
 **Frontend:** React (with conditional rendering for player vs. GM views).  
